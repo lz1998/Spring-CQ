@@ -11,7 +11,6 @@ import xin.lz1998.cq.robot.CoolQ;
 public class HelloPlugin extends CQPlugin {
     @Override
     public int onPrivateMessage(CoolQ cq, CQPrivateMessageEvent event) {
-        System.out.println("hello");
         cq.sendPrivateMsg(event.getUserId(),"hello",false);
         return MESSAGE_IGNORE;
     }

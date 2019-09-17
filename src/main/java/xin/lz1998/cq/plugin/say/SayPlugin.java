@@ -8,7 +8,7 @@ import xin.lz1998.cq.robot.CoolQ;
 
 
 @Component // 加入容器
-@Order(1) // 插件执行顺序，有多个插件，这个插件第几个执行
+@Order(2) // 插件执行顺序，有多个插件，这个插件第几个执行
 public class SayPlugin extends CQPlugin {
     @Override
     public int onPrivateMessage(CoolQ cq, CQPrivateMessageEvent event) {
