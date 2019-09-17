@@ -1,5 +1,6 @@
 # Spring-CQ
-[![Build Status](https://travis-ci.org/lz1998/spring-cq.png)](https://travis-ci.org/lz1998/spring-cq)  
+[![Build Status](https://travis-ci.org/lz1998/spring-cq.png)](https://travis-ci.org/lz1998/spring-cq)
+[![QQ群](https://img.shields.io/static/v1?label=QQ%E7%BE%A4&message=335783090&color=blue)](https://jq.qq.com/?_wv=1027&k=5BKAROL)
 
 基于 酷Q、cqhttp、SpringBoot、反向websocket 的 QQ 机器人框架
 
@@ -40,8 +41,13 @@ public class SayPlugin extends CQPlugin {
     java -jar spring-cq-0.0.1-SNAPSHOT.jar
     ```
 
-## 运行酷Q和cqhttp(反向websocket)
-1. 安装酷Q和CQHTTP插件，推荐使用docker
+## 运行酷Q和cqhttp(Windows)
+1. 点击 [下载](http://cq.lz1998.xin/CQA.zip) 配置好的 酷Q Air 
+2. 解压后运行 CQA.exe 登录QQ账号 
+
+
+## 运行酷Q和cqhttp(Docker)
+1. 安装酷Q和CQHTTP插件
     ```shell
     docker run -d --name cq01 \
     -v $(pwd)/coolq:/home/user/coolq \
