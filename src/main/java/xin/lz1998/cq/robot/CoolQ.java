@@ -153,7 +153,7 @@ public class CoolQ {
         return result;
     }
 
-    public ApiRawData setGroupBan(long group_id, long user_id, boolean duration) {
+    public ApiRawData setGroupBan(long group_id, long user_id, long duration) {
         ApiEnum action = ApiEnum.SET_GROUP_BAN;
 
         JSONObject params = new JSONObject();
