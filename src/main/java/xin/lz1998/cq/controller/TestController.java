@@ -46,7 +46,7 @@ public class TestController {
     }
 
     @RequestMapping("/set_group_ban")
-    public String setGroupBan(long self_id,long group_id, long user_id, boolean duration) throws InterruptedException,  IOException {
+    public String setGroupBan(long self_id,long group_id, long user_id, long duration) throws InterruptedException,  IOException {
         Global.robots.get(self_id).setGroupBan(group_id,user_id,duration);
         return "ok";
     }
