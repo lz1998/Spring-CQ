@@ -38,7 +38,7 @@ public class CoolQ {
     }
 
     public void onReceiveApiMessage(JSONObject message) {
-        logger.info(selfId + " RECV API   {}", message);
+        logger.debug(selfId + " RECV API   {}", message);
         String echo = message.get("echo").toString();
         ApiSender apiSender = apiCallbackMap.get(echo);
         apiSender.onReceiveJson(message);
@@ -50,7 +50,7 @@ public class CoolQ {
         String echo = apiJSON.getString("echo");
         ApiSender apiSender = new ApiSender(apiSession);
         apiCallbackMap.put(echo, apiSender);
-        logger.info("{} SEND API   {} {}", selfId, action.getDesc(), params);
+        logger.debug("{} SEND API   {} {}", selfId, action.getDesc(), params);
         JSONObject retJson;
         try {
             retJson = apiSender.sendApiJson(apiJSON);
@@ -64,7 +64,7 @@ public class CoolQ {
     }
 
     public void onReceiveEventMessage(JSONObject message) {
-        logger.info(selfId + " RECV Event {}", message);
+        logger.debug(selfId + " RECV Event {}", message);
         new Thread(() -> EventHandler.handle(CoolQ.this, message)).start();
     }
 

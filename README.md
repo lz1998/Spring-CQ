@@ -5,24 +5,61 @@
 基于 酷Q、cqhttp、SpringBoot、反向websocket 的 QQ 机器人框架
 
 ## 编写插件
-在plugin下写XXXPlugin，继承CQPlugin
-
-```java
-@Component // 加入容器
-@Order(1) // 插件执行顺序，有多个插件，这个插件第几个执行
-public class SayPlugin extends CQPlugin {
-    @Override
-    public int onPrivateMessage(CoolQ cq, CQPrivateMessageEvent event) {
-        long user_id = event.getSender().getUserId();
-        String msg = event.getMessage();
-        if (msg.startsWith("/say")) {
-            cq.sendPrivateMsg(user_id, msg.substring(4), false);
+1. 在plugin下写XXXPlugin，继承CQPlugin  
+    - 前缀处理插件
+        ```java
+        public class PrefixPlugin extends CQPlugin {
+            // 指令前缀 /
+            private String prefix = "/";
+        
+            @Override
+            public int onPrivateMessage(CoolQ cq, CQPrivateMessageEvent event) {
+                String msg = event.getMessage();
+                if (msg.startsWith(prefix)) {
+                    // 指令以 prefix 开头，去除prefix，并继续执行下一个插件
+                    msg = msg.substring(prefix.length());
+                    event.setMessage(msg);
+                    return MESSAGE_IGNORE;
+                } else {
+                    // 指令不以 prefix 开头，结束，不执行下一个插件
+                    return MESSAGE_BLOCK;
+                }
+            }
         }
-        return MESSAGE_IGNORE; // 继续执行下一个插件
-        // return MESSAGE_BLOCK; // 不执行下一个插件
+        ```
+
+    - 说话插件
+        ```java
+        public class SayPlugin extends CQPlugin {
+            @Override
+            public int onPrivateMessage(CoolQ cq, CQPrivateMessageEvent event) {
+                long user_id = event.getSender().getUserId();
+                String msg = event.getMessage();
+                if (msg.startsWith("say")) {
+                    cq.sendPrivateMsg(user_id, msg.substring(3), false);
+                }
+                return MESSAGE_IGNORE; // 继续执行下一个插件
+                // return MESSAGE_BLOCK; // 不执行下一个插件
+            }
+        }
+        ```
+
+2. 修改PluginConfig，配置顺序
+    ```java
+    public class PluginConfig {
+        public static List<CQPlugin> pluginList = new ArrayList<>();
+    
+        static {
+            pluginList.add(new LogPlugin()); // 日志插件
+            pluginList.add(new PrefixPlugin()); // 前缀处理插件
+            pluginList.add(new SayPlugin()); // 说话插件
+        }
+    
     }
-}
-```
+    ```
+
+
+
     
 ## 测试应用
 1. 修改application.properties的端口，默认8081

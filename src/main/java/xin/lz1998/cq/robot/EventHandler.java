@@ -9,17 +9,13 @@ import xin.lz1998.cq.event.message.CQPrivateMessageEvent;
 import xin.lz1998.cq.event.notice.*;
 import xin.lz1998.cq.event.request.CQFriendRequestEvent;
 import xin.lz1998.cq.event.request.CQGroupRequestEvent;
+import xin.lz1998.cq.plugin.PluginConfig;
 
 import java.util.List;
 
 @Service
 class EventHandler {
-    @Autowired
-    private static List<CQPlugin> pluginArrayList;
 
-    public EventHandler(List<CQPlugin> cqPlugins) {
-        this.pluginArrayList=cqPlugins;
-    }
 
     static void handle(CoolQ cq, JSONObject eventJson) {
         String postType=eventJson.getString("post_type");
@@ -44,7 +40,7 @@ class EventHandler {
         switch (messageType){
             case "private":{
                 CQPrivateMessageEvent event= eventJson.toJavaObject(CQPrivateMessageEvent.class);
-                for(CQPlugin plugin:pluginArrayList){
+                for(CQPlugin plugin:PluginConfig.pluginList){
                     if (plugin.onPrivateMessage(cq, event) == CQPlugin.MESSAGE_BLOCK)
                         break;
                 }
@@ -52,7 +48,7 @@ class EventHandler {
             }
             case "group":{
                 CQGroupMessageEvent event=eventJson.toJavaObject(CQGroupMessageEvent.class);
-                for(CQPlugin plugin:pluginArrayList){
+                for(CQPlugin plugin:PluginConfig.pluginList){
                     if (plugin.onGroupMessage(cq, event) == CQPlugin.MESSAGE_BLOCK)
                         break;
                 }
@@ -60,7 +56,7 @@ class EventHandler {
             }
             case "discuss":{
                 CQDiscussMessageEvent event=eventJson.toJavaObject(CQDiscussMessageEvent.class);
-                for(CQPlugin plugin:pluginArrayList){
+                for(CQPlugin plugin:PluginConfig.pluginList){
                     if (plugin.onDiscussMessage(cq, event) == CQPlugin.MESSAGE_BLOCK)
                         break;
                 }
@@ -77,7 +73,7 @@ class EventHandler {
         switch (noticeType){
             case "group_upload":{
                 CQGroupUploadNoticeEvent event= eventJson.toJavaObject(CQGroupUploadNoticeEvent.class);
-                for(CQPlugin plugin:pluginArrayList){
+                for(CQPlugin plugin:PluginConfig.pluginList){
                     if (plugin.onGroupUploadNotice(cq, event) == CQPlugin.MESSAGE_BLOCK)
                         break;
                 }
@@ -85,7 +81,7 @@ class EventHandler {
             }
             case "group_admin":{
                 CQGroupAdminNoticeEvent event= eventJson.toJavaObject( CQGroupAdminNoticeEvent.class);
-                for(CQPlugin plugin:pluginArrayList){
+                for(CQPlugin plugin:PluginConfig.pluginList){
                     if (plugin.onGroupAdminNotice(cq, event) == CQPlugin.MESSAGE_BLOCK)
                         break;
                 }
@@ -93,7 +89,7 @@ class EventHandler {
             }
             case "group_decrease":{
                 CQGroupDecreaseNoticeEvent event=eventJson.toJavaObject(CQGroupDecreaseNoticeEvent.class);
-                for(CQPlugin plugin:pluginArrayList){
+                for(CQPlugin plugin:PluginConfig.pluginList){
                     if (plugin.onGroupDecreaseNotice(cq, event) == CQPlugin.MESSAGE_BLOCK)
                         break;
                 }
@@ -101,7 +97,7 @@ class EventHandler {
             }
             case "group_increase":{
                 CQGroupIncreaseNoticeEvent event=eventJson.toJavaObject( CQGroupIncreaseNoticeEvent.class);
-                for(CQPlugin plugin:pluginArrayList){
+                for(CQPlugin plugin:PluginConfig.pluginList){
                     if (plugin.onGroupIncreaseNotice(cq, event) == CQPlugin.MESSAGE_BLOCK)
                         break;
                 }
@@ -109,7 +105,7 @@ class EventHandler {
             }
             case "friend_add":{
                 CQFriendAddNoticeEvent event=eventJson.toJavaObject(CQFriendAddNoticeEvent.class);
-                for(CQPlugin plugin:pluginArrayList){
+                for(CQPlugin plugin:PluginConfig.pluginList){
                     if (plugin.onFriendAddNotice(cq, event) == CQPlugin.MESSAGE_BLOCK)
                         break;
                 }
@@ -125,7 +121,7 @@ class EventHandler {
         switch (requestType){
             case "friend":{
                 CQFriendRequestEvent event=eventJson.toJavaObject( CQFriendRequestEvent.class);
-                for(CQPlugin plugin:pluginArrayList){
+                for(CQPlugin plugin:PluginConfig.pluginList){
                     if (plugin.onFriendRequest(cq, event) == CQPlugin.MESSAGE_BLOCK)
                         break;
                 }
@@ -133,7 +129,7 @@ class EventHandler {
             }
             case "group":{
                 CQGroupRequestEvent event=eventJson.toJavaObject(CQGroupRequestEvent.class);
-                for(CQPlugin plugin:pluginArrayList){
+                for(CQPlugin plugin: PluginConfig.pluginList){
                     if (plugin.onGroupRequest(cq, event) == CQPlugin.MESSAGE_BLOCK)
                         break;
                 }
