@@ -22,7 +22,7 @@ public class CQPCode {
      * @return
      */
     public static long getAtQQ(String CQCode) {
-        return Until.isInteger(CQCode.replace("[CQ:at,qq=", "").replace("]", "")) ? Long.parseLong(CQCode) : null;// 是数值返回Long型的QQ号，不是返回null
+        return Util.isInteger(CQCode.replace("[CQ:at,qq=", "").replace("]", "")) ? Long.parseLong(CQCode) : null;// 是数值返回Long型的QQ号，不是返回null
     }
 
     /**
