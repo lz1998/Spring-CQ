@@ -15,6 +15,17 @@ public class CQPCode {
     }
 
     /**
+     * 返回at的qq号
+     * 是数值返回Long型的QQ号，不是返回null
+     *
+     * @param CQCode
+     * @return
+     */
+    public static long getAtQQ(String CQCode) {
+        return Until.isInteger(CQCode.replace("[CQ:at,qq=", "").replace("]", "")) ? Long.parseLong(CQCode) : null;// 是数值返回Long型的QQ号，不是返回null
+    }
+
+    /**
      * 发送一个原版表情
      * 用法: 将此方法返回的String直接包含在消息当中
      * 全部原版表情: https://imgc.cqp.me/forum/201804/12/101625nld1zafkij1dafgd.png
