@@ -2,7 +2,7 @@ package cn.lliiooll;
 
 import java.util.regex.Pattern;
 
-public class Until {
+public class Util {
 
     /**
      * 替换无用字符
