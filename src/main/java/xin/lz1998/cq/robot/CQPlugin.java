@@ -40,6 +40,7 @@ public class CQPlugin {
         return MESSAGE_IGNORE;
     }
 
+    public int onGroupBanNotice(CoolQ cq,CQGroupBanNoticeEvent event){return MESSAGE_IGNORE;}
     public int onFriendAddNotice(CoolQ cq, CQFriendAddNoticeEvent event) {
         return MESSAGE_IGNORE;
     }

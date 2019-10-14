@@ -314,6 +314,12 @@ public class CoolQ {
         return result;
     }
 
+    public ApiData<FriendData> getFriendList(){
+        ApiEnum action=ApiEnum.GET_FRIEND_LIST;
+        ApiData<FriendData> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiData<FriendData>>() {
+        });
+        return result;
+    }
     public ApiData<GroupData> getGroupList() {
         ApiEnum action = ApiEnum.GET_GROUP_LIST;
 

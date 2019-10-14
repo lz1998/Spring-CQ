@@ -103,6 +103,14 @@ class EventHandler {
                 }
                 break;
             }
+            case "group_ban":{
+                CQGroupBanNoticeEvent event=eventJson.toJavaObject(CQGroupBanNoticeEvent.class);
+                for(CQPlugin plugin:PluginConfig.pluginList){
+                    if(plugin.onGroupBanNotice(cq,event)==CQPlugin.MESSAGE_BLOCK)
+                        break;
+                }
+                break;
+            }
             case "friend_add":{
                 CQFriendAddNoticeEvent event=eventJson.toJavaObject(CQFriendAddNoticeEvent.class);
                 for(CQPlugin plugin:PluginConfig.pluginList){

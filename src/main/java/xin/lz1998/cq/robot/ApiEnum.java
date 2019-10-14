@@ -26,6 +26,7 @@ public enum ApiEnum {
     SET_GROUP_ADD_REQUEST("set_group_add_request", "处理加群请求／邀请"),
     GET_LOGIN_INFO("get_login_info", "获取登录号信息"),
     GET_STRANGER_INFO("get_stranger_info", "获取陌生人信息"),
+    GET_FRIEND_LIST("get_friend_list", "获取好友列表"),
     GET_GROUP_LIST("get_group_list", "获取群列表"),
     GET_GROUP_MEMBER_INFO("get_group_member_info", "获取群成员信息"),
     GET_GROUP_MEMBER_LIST("get_group_member_list", "获取群成员列表"),
