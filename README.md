@@ -94,7 +94,7 @@
     -e COOLQ_ACCOUNT=你的机器人QQ号 \
     -e CQHTTP_USE_HTTP=false \
     -e CQHTTP_USE_WS_REVERSE=true \
-    -e CQHTTP_WS_REVERSE_URL=ws://127.0.0.1:8081/ws/api/ \
+    -e CQHTTP_WS_REVERSE_URL=ws://127.0.0.1:8081/ws/universal/ \
     -e CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true \
     richardchien/cqhttp
     ```
