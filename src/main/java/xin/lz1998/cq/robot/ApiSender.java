@@ -9,9 +9,7 @@ import org.springframework.web.socket.WebSocketSession;
 import java.io.IOException;
 
 class ApiSender extends Thread {
-    @Getter
-    @Setter
-    private WebSocketSession apiSession;
+    private final WebSocketSession apiSession;
     private JSONObject responseJSON;
 
     ApiSender(WebSocketSession apiSession) {
@@ -19,7 +17,9 @@ class ApiSender extends Thread {
     }
 
     JSONObject sendApiJson(JSONObject apiJSON) throws IOException, InterruptedException {
-        apiSession.sendMessage(new TextMessage(apiJSON.toJSONString()));
+        synchronized (apiSession){
+            apiSession.sendMessage(new TextMessage(apiJSON.toJSONString()));
+        }
         synchronized (this) {
             this.wait(RobotConfig.CQ_API_TIMEOUT);
         }
