@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.WebSocketSession;
 import xin.lz1998.cq.entity.CQGroupAnonymous;
+import xin.lz1998.cq.entity.CQStatus;
 import xin.lz1998.cq.retdata.*;
 
 import java.util.HashMap;
@@ -405,10 +406,10 @@ public class CoolQ {
         return result;
     }
 
-    public ApiData<StatusData> getStatus() {
+    public ApiData<CQStatus> getStatus() {
         ApiEnum action = ApiEnum.GET_STATUS;
 
-        ApiData<StatusData> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiData<StatusData>>() {
+        ApiData<CQStatus> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiData<CQStatus>>() {
         });
         return result;
     }

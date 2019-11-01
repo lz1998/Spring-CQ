@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import xin.lz1998.cq.event.message.CQDiscussMessageEvent;
 import xin.lz1998.cq.event.message.CQGroupMessageEvent;
 import xin.lz1998.cq.event.message.CQPrivateMessageEvent;
+import xin.lz1998.cq.event.meta.CQHeartBeatEvent;
 import xin.lz1998.cq.event.notice.*;
 import xin.lz1998.cq.event.request.CQFriendRequestEvent;
 import xin.lz1998.cq.event.request.CQGroupRequestEvent;
@@ -12,6 +13,7 @@ import xin.lz1998.cq.event.request.CQGroupRequestEvent;
 public class CQPlugin {
     public static final int MESSAGE_BLOCK = 1;
     public static final int MESSAGE_IGNORE = 0;
+
     public int onPrivateMessage(CoolQ cq, CQPrivateMessageEvent event) {
         return MESSAGE_IGNORE;
     }
@@ -40,7 +42,10 @@ public class CQPlugin {
         return MESSAGE_IGNORE;
     }
 
-    public int onGroupBanNotice(CoolQ cq,CQGroupBanNoticeEvent event){return MESSAGE_IGNORE;}
+    public int onGroupBanNotice(CoolQ cq, CQGroupBanNoticeEvent event) {
+        return MESSAGE_IGNORE;
+    }
+
     public int onFriendAddNotice(CoolQ cq, CQFriendAddNoticeEvent event) {
         return MESSAGE_IGNORE;
     }
@@ -50,6 +55,10 @@ public class CQPlugin {
     }
 
     public int onGroupRequest(CoolQ cq, CQGroupRequestEvent event) {
+        return MESSAGE_IGNORE;
+    }
+
+    public int onHeartBeatMeta(CoolQ cq, CQHeartBeatEvent event) {
         return MESSAGE_IGNORE;
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import xin.lz1998.cq.event.message.CQDiscussMessageEvent;
 import xin.lz1998.cq.event.message.CQGroupMessageEvent;
 import xin.lz1998.cq.event.message.CQPrivateMessageEvent;
+import xin.lz1998.cq.event.meta.CQHeartBeatEvent;
 import xin.lz1998.cq.event.notice.*;
 import xin.lz1998.cq.event.request.CQFriendRequestEvent;
 import xin.lz1998.cq.event.request.CQGroupRequestEvent;
@@ -18,6 +19,7 @@ class EventHandler {
 
 
     static void handle(CoolQ cq, JSONObject eventJson) {
+        System.out.println(eventJson);
         String postType=eventJson.getString("post_type");
         switch (postType){
             case "message":{
@@ -30,6 +32,10 @@ class EventHandler {
             }
             case "request":{
                 handleRequest(cq, eventJson);
+                break;
+            }
+            case "meta_event":{
+                handleMeta(cq, eventJson);
                 break;
             }
         }
@@ -145,5 +151,17 @@ class EventHandler {
             }
         }
     }
-
+    private static void handleMeta(CoolQ cq, JSONObject eventJson) {
+        String metaType = eventJson.getString("meta_event_type");
+        switch (metaType){
+            case "heartbeat":{
+                CQHeartBeatEvent event=eventJson.toJavaObject( CQHeartBeatEvent.class);
+                for(CQPlugin plugin:PluginConfig.pluginList){
+                    if (plugin.onHeartBeatMeta(cq, event) == CQPlugin.MESSAGE_BLOCK)
+                        break;
+                }
+                break;
+            }
+        }
+    }
 }

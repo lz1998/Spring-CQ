@@ -10,7 +10,7 @@ import java.util.Date;
 //@Table
 @Data
 @Builder
-public class Log {
+public class MyLog {
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
