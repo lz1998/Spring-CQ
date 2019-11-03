@@ -312,16 +312,16 @@ public class CoolQ {
         return result;
     }
 
-    public ApiData<FriendData> getFriendList(){
+    public ApiListData<FriendData> getFriendList(){
         ApiEnum action=ApiEnum.GET_FRIEND_LIST;
-        ApiData<FriendData> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiData<FriendData>>() {
+        ApiListData<FriendData> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiListData<FriendData>>() {
         });
         return result;
     }
-    public ApiData<GroupData> getGroupList() {
+    public ApiListData<GroupData> getGroupList() {
         ApiEnum action = ApiEnum.GET_GROUP_LIST;
 
-        ApiData<GroupData> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiData<GroupData>>() {
+        ApiListData<GroupData> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiListData<GroupData>>() {
         });
         return result;
     }
