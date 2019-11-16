@@ -5,7 +5,7 @@
 基于 酷Q、cqhttp、SpringBoot、反向websocket 的 QQ 机器人框架
 
 ## 编写插件
-1. 在plugin下写XXXPlugin，继承CQPlugin  
+1. 在xin.lz1998.bot.plugin下写XXXPlugin，继承CQPlugin  
     - 前缀处理插件
         ```java
         public class PrefixPlugin extends CQPlugin {
