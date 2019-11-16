@@ -8,7 +8,7 @@
         <version>2.1.8.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>xin.lz1998.cq</groupId>
+    <groupId>xin.lz1998</groupId>
     <artifactId>spring-cq</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-cq</name>

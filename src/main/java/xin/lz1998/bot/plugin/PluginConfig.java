@@ -1,9 +1,9 @@
-package xin.lz1998.cq.plugin;
+package xin.lz1998.bot.plugin;
 
-import xin.lz1998.cq.plugin.log.LogPlugin;
-import xin.lz1998.cq.plugin.prefix.PrefixPlugin;
-import xin.lz1998.cq.plugin.say.SayPlugin;
-import xin.lz1998.cq.plugin.status.StatusPlugin;
+import xin.lz1998.bot.plugin.log.LogPlugin;
+import xin.lz1998.bot.plugin.prefix.PrefixPlugin;
+import xin.lz1998.bot.plugin.say.SayPlugin;
+import xin.lz1998.bot.plugin.status.StatusPlugin;
 import xin.lz1998.cq.robot.CQPlugin;
 
 import java.util.ArrayList;

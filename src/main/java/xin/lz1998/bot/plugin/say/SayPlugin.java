@@ -1,4 +1,4 @@
-package xin.lz1998.cq.plugin.say;
+package xin.lz1998.bot.plugin.say;
 
 import xin.lz1998.cq.event.message.CQPrivateMessageEvent;
 import xin.lz1998.cq.robot.CQPlugin;

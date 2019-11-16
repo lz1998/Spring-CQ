@@ -1,4 +1,4 @@
-package xin.lz1998.cq.plugin.log;
+package xin.lz1998.bot.plugin.log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
