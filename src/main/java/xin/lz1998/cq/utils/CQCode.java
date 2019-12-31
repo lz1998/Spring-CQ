@@ -80,4 +80,8 @@ public class CQCode {
         return "[CQ:share,url=" + escape(url) + ",title=" + escape(title) + ",content=" + escape(content) + ",image=" + escape(image) + "]";
     }
 
+    public static String contact(Long id,String type){
+        return "[CQ:contact,type=" + type + ",id=" + id +"]";
+    }
+
 }
