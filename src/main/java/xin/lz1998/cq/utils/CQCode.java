@@ -20,6 +20,7 @@ public class CQCode {
         return "[CQ:face,id=" + id + "]";
     }
 
+    // id表 https://cqp.cc/t/15827
     public static String emoji(int id) {
         return "[CQ:emoji,id=" + id + "]";
     }

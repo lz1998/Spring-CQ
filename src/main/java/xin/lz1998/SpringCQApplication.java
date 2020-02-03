@@ -1,4 +1,4 @@
-package xin.lz1998.cq;
+package xin.lz1998;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

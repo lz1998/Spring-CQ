@@ -1,4 +1,4 @@
-package xin.lz1998.cq;
+package xin.lz1998;
 
 import xin.lz1998.cq.robot.CoolQ;
 

@@ -8,7 +8,7 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-import xin.lz1998.cq.Global;
+import xin.lz1998.Global;
 import xin.lz1998.cq.robot.CoolQ;
 
 
