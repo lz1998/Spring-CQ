@@ -26,9 +26,6 @@ public class SayPlugin extends CQPlugin {
         String msg = event.getMessage();
         if (msg.startsWith("say")) {
             cq.sendPrivateMsg(userId, msg.substring(3), false);
-//            List<GroupMemberInfoData> data = cq.getGroupMemberList(1055683448L).getData();
-            List<GroupMemberInfoData> data = cq.getGroupMemberList(374735267).getData();
-            log.info(JSON.toJSONString(data));
         }
         return MESSAGE_IGNORE; // 继续执行下一个插件
         // return MESSAGE_BLOCK; // 不执行下一个插件

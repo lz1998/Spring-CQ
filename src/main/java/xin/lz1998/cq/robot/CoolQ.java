@@ -533,6 +533,7 @@ public class CoolQ {
         ApiEnum action = ApiEnum.GET_GROUP_MEMBER_LIST;
         JSONObject params = new JSONObject();
 
+        // TODO get group member list有问题
         params.put("group_id", group_id);
         ApiListData<GroupMemberInfoData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiListData<GroupMemberInfoData>>() {
         });
