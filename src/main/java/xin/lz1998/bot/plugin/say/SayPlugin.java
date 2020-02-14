@@ -1,11 +1,15 @@
 package xin.lz1998.bot.plugin.say;
 
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import xin.lz1998.cq.event.message.CQGroupMessageEvent;
 import xin.lz1998.cq.event.message.CQPrivateMessageEvent;
+import xin.lz1998.cq.retdata.GroupMemberInfoData;
 import xin.lz1998.cq.robot.CQPlugin;
 import xin.lz1998.cq.robot.CoolQ;
 import xin.lz1998.cq.utils.CQCode;
+
+import java.util.List;
 
 @Slf4j
 public class SayPlugin extends CQPlugin {
@@ -22,6 +26,9 @@ public class SayPlugin extends CQPlugin {
         String msg = event.getMessage();
         if (msg.startsWith("say")) {
             cq.sendPrivateMsg(userId, msg.substring(3), false);
+//            List<GroupMemberInfoData> data = cq.getGroupMemberList(1055683448L).getData();
+            List<GroupMemberInfoData> data = cq.getGroupMemberList(374735267).getData();
+            log.info(JSON.toJSONString(data));
         }
         return MESSAGE_IGNORE; // 继续执行下一个插件
         // return MESSAGE_BLOCK; // 不执行下一个插件

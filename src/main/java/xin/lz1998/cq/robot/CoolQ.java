@@ -522,6 +522,26 @@ public class CoolQ {
     }
 
     /**
+     * 获取群成员列表
+     * <p>
+     * 响应内容为 JSON 数组，每个元素的内容和上面的 /get_group_member_info 接口相同，但对于同一个群组的同一个成员，获取列表时和获取单独的成员信息时，某些字段可能有所不同，例如 area、title 等字段在获取列表时无法获得，具体应以单独的成员信息为准。
+     *
+     * @param group_id 群号
+     * @return
+     */
+    public ApiListData<GroupMemberInfoData> getGroupMemberList(long group_id) {
+        ApiEnum action = ApiEnum.GET_GROUP_MEMBER_LIST;
+        JSONObject params = new JSONObject();
+
+        params.put("group_id", group_id);
+        ApiListData<GroupMemberInfoData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiListData<GroupMemberInfoData>>() {
+        });
+
+        return result;
+    }
+
+
+    /**
      * 获取 Cookies
      *
      * @param domain 需要获取 cookies 的域名
