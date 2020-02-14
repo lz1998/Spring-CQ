@@ -312,12 +312,13 @@ public class CoolQ {
         return result;
     }
 
-    public ApiListData<FriendData> getFriendList(){
-        ApiEnum action=ApiEnum.GET_FRIEND_LIST;
+    public ApiListData<FriendData> getFriendList() {
+        ApiEnum action = ApiEnum.GET_FRIEND_LIST;
         ApiListData<FriendData> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiListData<FriendData>>() {
         });
         return result;
     }
+
     public ApiListData<GroupData> getGroupList() {
         ApiEnum action = ApiEnum.GET_GROUP_LIST;
 
