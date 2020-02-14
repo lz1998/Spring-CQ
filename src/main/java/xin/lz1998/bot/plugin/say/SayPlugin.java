@@ -1,12 +1,13 @@
 package xin.lz1998.bot.plugin.say;
 
+import lombok.extern.slf4j.Slf4j;
 import xin.lz1998.cq.event.message.CQGroupMessageEvent;
 import xin.lz1998.cq.event.message.CQPrivateMessageEvent;
 import xin.lz1998.cq.robot.CQPlugin;
 import xin.lz1998.cq.robot.CoolQ;
 import xin.lz1998.cq.utils.CQCode;
 
-
+@Slf4j
 public class SayPlugin extends CQPlugin {
     /**
      * 收到私聊消息后会调用这个方法

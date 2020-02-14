@@ -484,6 +484,23 @@ public class CoolQ {
     }
 
     /**
+     * 获取群信息
+     *
+     * @param group_id 群号
+     * @param no_cache 是否不使用缓存（使用缓存可能更新不及时，但响应更快）
+     * @return
+     */
+    public ApiData<GroupInfoData> getGroupInfo(long group_id, boolean no_cache) {
+        ApiEnum action = ApiEnum.GET_GROUP_INFO;
+        JSONObject params = new JSONObject();
+        params.put("group_id", group_id);
+        params.put("no_cache", no_cache);
+        ApiData<GroupInfoData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<GroupInfoData>>() {
+        });
+        return result;
+    }
+
+    /**
      * 获取群成员信息
      *
      * @param group_id 群号
