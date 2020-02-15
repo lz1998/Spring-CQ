@@ -72,11 +72,9 @@
         }
     }
     ```
-    私聊截图
-    ![私聊截图](http://cq.lz1998.xin/screenshot_private.png)
+    截图
     
-    群聊截图
-    ![群聊截图](http://cq.lz1998.xin/screenshot_group.png)
+    <img src="http://cq.lz1998.xin/screenshot_private.png" width="40%"/> <img src="http://cq.lz1998.xin/screenshot_group.png"  width="40%"/>
 
 2. 修改PluginConfig，配置顺序
     ```java
