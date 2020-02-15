@@ -151,6 +151,8 @@
     -e CQHTTP_USE_WS_REVERSE=true \
     -e CQHTTP_WS_REVERSE_URL=ws://宿主机地址:8081/ws/cq/ \
     -e CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true \
+    -e CQHTTP_ENABLE_HEARTBEAT=true \
+    -e CQHTTP_HEARTBEAT_INTERVAL=60000 \
     richardchien/cqhttp
     ```
     如果不知道宿主机地址是什么，可以使用Docker的host模式，共享主机网络
@@ -165,6 +167,8 @@
     -e CQHTTP_USE_WS_REVERSE=true \
     -e CQHTTP_WS_REVERSE_URL=ws://127.0.0.1:8081/ws/cq/ \
     -e CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true \
+    -e CQHTTP_ENABLE_HEARTBEAT=true \
+    -e CQHTTP_HEARTBEAT_INTERVAL=60000 \
     richardchien/cqhttp
     ```
 2. 访问 http://127.0.0.1:9000 登录QQ账号
