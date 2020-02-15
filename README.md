@@ -118,7 +118,7 @@
 
 ## Windows运行酷Q和cqhttp
 1. 准备酷Q Air
-    - 方案一：点击 [下载](http://cq.lz1998.xin/CQA.zip) 已经配置好cqhttp的 酷Q Air 
+    - 方案一：下载已经配置好cqhttp的[酷Q Air](http://cq.lz1998.xin/CQA.zip)
     - 方案二：自己配置
         1. 下载[酷Q Air](https://cqp.cc/t/23253)
         2. 下载[CQHTTP插件](https://github.com/richardchien/coolq-http-api/releases)
@@ -148,8 +148,8 @@
     -e COOLQ_ACCOUNT=你的机器人QQ号 \
     -e CQHTTP_USE_HTTP=false \
     -e CQHTTP_USE_WS_REVERSE=true \
-    -e CQHTTP_WS_REVERSE_URL=ws://127.0.0.1:8081/ws/universal/ \
+    -e CQHTTP_WS_REVERSE_URL=ws://127.0.0.1:8081/ws/cq/ \
     -e CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true \
     richardchien/cqhttp
     ```
-2. 如果有问题可以访问 http://127.0.0.1:9000 使用noVNC查看酷Q日志
+2. 访问 http://127.0.0.1:9000 登录QQ账号

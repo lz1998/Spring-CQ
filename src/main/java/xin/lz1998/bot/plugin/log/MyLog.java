@@ -5,35 +5,36 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
+
 // 本来用于JPA记录日志
 //@Entity
 //@Table
 @Data
 @Builder
 public class MyLog {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @Id
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//    @Column
+    // @Column
     private Long selfId;
 
-//    @Column
+    // @Column
     private String type;
 
-//    @Column
+    // @Column
     private Long groupId;
 
-//    @Column
+    // @Column
     private Long userId;
 
-//    @Column
+    // @Column
     private Long operatorId;
 
-//    @Column(length = 8000)
+    // @Column(length = 8000)
     private String content;
 
-//    @CreationTimestamp
-//    @Column(updatable = false,nullable = false)
+    // @CreationTimestamp
+    // @Column(updatable = false,nullable = false)
     private Date time;
 }
