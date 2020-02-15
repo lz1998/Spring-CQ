@@ -533,7 +533,6 @@ public class CoolQ {
         ApiEnum action = ApiEnum.GET_GROUP_MEMBER_LIST;
         JSONObject params = new JSONObject();
 
-        // TODO get group member list有问题
         params.put("group_id", group_id);
         ApiListData<GroupMemberInfoData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiListData<GroupMemberInfoData>>() {
         });
@@ -574,13 +573,18 @@ public class CoolQ {
 
     /**
      * 获取 QQ 相关接口凭证
+     * 即上面两个接口的合并
      *
+     * @param domain 需要获取 cookies 的域名
      * @return
      */
-    public ApiData<CredentialsData> getCredentials() {
+    public ApiData<CredentialsData> getCredentials(String domain) {
         ApiEnum action = ApiEnum.GET_CREDENTIALS;
 
-        ApiData<CredentialsData> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiData<CredentialsData>>() {
+        JSONObject params = new JSONObject();
+        params.put("domain", domain);
+
+        ApiData<CredentialsData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<CredentialsData>>() {
         });
         return result;
     }

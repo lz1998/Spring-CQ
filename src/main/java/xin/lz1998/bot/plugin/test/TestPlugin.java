@@ -3,6 +3,8 @@ package xin.lz1998.bot.plugin.test;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import xin.lz1998.cq.event.message.CQPrivateMessageEvent;
+import xin.lz1998.cq.event.meta.CQLifecycleMetaEvent;
+import xin.lz1998.cq.retdata.FriendData;
 import xin.lz1998.cq.retdata.GroupMemberInfoData;
 import xin.lz1998.cq.robot.CQPlugin;
 import xin.lz1998.cq.robot.CoolQ;
@@ -18,8 +20,11 @@ public class TestPlugin extends CQPlugin {
             return MESSAGE_IGNORE;
         }
         // TODO get group member list有问题
-        List<GroupMemberInfoData> data = cq.getGroupMemberList(374735267L).getData();
+//        List<GroupMemberInfoData> data = cq.getGroupMemberList(374735267L).getData();
+        List<FriendData> data=cq.getFriendList().getData();
         log.info(JSON.toJSONString(data));
         return super.onPrivateMessage(cq, event);
     }
+
+
 }

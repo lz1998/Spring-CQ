@@ -6,7 +6,8 @@ import xin.lz1998.bot.plugin.PluginConfig;
 import xin.lz1998.cq.event.message.CQDiscussMessageEvent;
 import xin.lz1998.cq.event.message.CQGroupMessageEvent;
 import xin.lz1998.cq.event.message.CQPrivateMessageEvent;
-import xin.lz1998.cq.event.meta.CQHeartBeatEvent;
+import xin.lz1998.cq.event.meta.CQHeartBeatMetaEvent;
+import xin.lz1998.cq.event.meta.CQLifecycleMetaEvent;
 import xin.lz1998.cq.event.notice.*;
 import xin.lz1998.cq.event.request.CQFriendRequestEvent;
 import xin.lz1998.cq.event.request.CQGroupRequestEvent;
@@ -153,9 +154,17 @@ class EventHandler {
         String metaType = eventJson.getString("meta_event_type");
         switch (metaType) {
             case "heartbeat": {
-                CQHeartBeatEvent event = eventJson.toJavaObject(CQHeartBeatEvent.class);
+                CQHeartBeatMetaEvent event = eventJson.toJavaObject(CQHeartBeatMetaEvent.class);
                 for (CQPlugin plugin : PluginConfig.pluginList) {
                     if (plugin.onHeartBeatMeta(cq, event) == CQPlugin.MESSAGE_BLOCK)
+                        break;
+                }
+                break;
+            }
+            case "lifecycle": {
+                CQLifecycleMetaEvent event = eventJson.toJavaObject(CQLifecycleMetaEvent.class);
+                for (CQPlugin plugin : PluginConfig.pluginList) {
+                    if (plugin.onLifecycleMeta(cq, event) == CQPlugin.MESSAGE_BLOCK)
                         break;
                 }
                 break;

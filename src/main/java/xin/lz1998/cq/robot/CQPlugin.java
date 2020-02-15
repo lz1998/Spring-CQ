@@ -3,7 +3,8 @@ package xin.lz1998.cq.robot;
 import xin.lz1998.cq.event.message.CQDiscussMessageEvent;
 import xin.lz1998.cq.event.message.CQGroupMessageEvent;
 import xin.lz1998.cq.event.message.CQPrivateMessageEvent;
-import xin.lz1998.cq.event.meta.CQHeartBeatEvent;
+import xin.lz1998.cq.event.meta.CQHeartBeatMetaEvent;
+import xin.lz1998.cq.event.meta.CQLifecycleMetaEvent;
 import xin.lz1998.cq.event.notice.*;
 import xin.lz1998.cq.event.request.CQFriendRequestEvent;
 import xin.lz1998.cq.event.request.CQGroupRequestEvent;
@@ -142,7 +143,11 @@ public class CQPlugin {
      * @param event 事件内容
      * @return 是否继续处理下一个插件, MESSAGE_BLOCK表示不继续，MESSAGE_IGNORE表示继续
      */
-    public int onHeartBeatMeta(CoolQ cq, CQHeartBeatEvent event) {
+    public int onHeartBeatMeta(CoolQ cq, CQHeartBeatMetaEvent event) {
+        return MESSAGE_IGNORE;
+    }
+
+    public int onLifecycleMeta(CoolQ cq, CQLifecycleMetaEvent event){
         return MESSAGE_IGNORE;
     }
 }
