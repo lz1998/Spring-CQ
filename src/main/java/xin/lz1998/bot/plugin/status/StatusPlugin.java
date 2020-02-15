@@ -9,9 +9,8 @@ import xin.lz1998.cq.robot.CoolQ;
 public class StatusPlugin extends CQPlugin {
     @Override
     public int onHeartBeatMeta(CoolQ cq, CQHeartBeatMetaEvent event) {
-        log.info(cq.getSelfId()+" 在线:"+event.getStatus().isOnline());
-        log.info(cq.getSelfId()+" 正常:"+event.getStatus().isGood());
-        log.info(event.getInterval().toString());
+        log.info(cq.getSelfId()+" 是否在线:"+event.getStatus().isOnline());
+        log.info(cq.getSelfId()+" 是否正常:"+event.getStatus().isGood());
         return MESSAGE_BLOCK;
     }
 }

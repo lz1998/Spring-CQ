@@ -6,55 +6,93 @@
 
 ## 编写插件
 1. 在xin.lz1998.bot.plugin下写XXXPlugin，继承CQPlugin  
-    - 前缀处理插件
-        ```java
-        public class PrefixPlugin extends CQPlugin {
-            // 指令前缀 /
-            private String prefix = "/";
-        
-            @Override
-            public int onPrivateMessage(CoolQ cq, CQPrivateMessageEvent event) {
-                String msg = event.getMessage();
-                if (msg.startsWith(prefix)) {
-                    // 指令以 prefix 开头，去除prefix，并继续执行下一个插件
-                    msg = msg.substring(prefix.length());
-                    event.setMessage(msg);
-                    return MESSAGE_IGNORE;
-                } else {
-                    // 指令不以 prefix 开头，结束，不执行下一个插件
-                    return MESSAGE_BLOCK;
-                }
+    ```java
+    /**
+     * 示例插件
+     * 插件必须继承CQPlugin
+     *
+     * 添加事件：光标移动到类中，按 Ctrl+O 添加事件(讨论组消息、加群请求、加好友请求等)
+     * 查看API参数类型：光标移动到方法括号中按Ctrl+P
+     * 查看API说明：光标移动到方法括号中按Ctrl+Q
+     */
+    @Slf4j
+    public class ExamplePlugin extends CQPlugin {
+        /**
+         * 收到私聊消息时会调用这个方法
+         *
+         * @param cq    机器人对象，用于调用API，例如发送私聊消息 sendPrivateMsg
+         * @param event 事件对象，用于获取消息内容、群号、发送者QQ等
+         * @return 是否继续调用下一个插件，IGNORE表示继续，BLOCK表示不继续
+         */
+        @Override
+        public int onPrivateMessage(CoolQ cq, CQPrivateMessageEvent event) {
+            // 获取 发送者QQ 和 消息内容
+            long userId = event.getUserId();
+            String msg = event.getMessage();
+    
+            if (msg.equals("hi")) {
+                // 调用API发送hello
+                cq.sendPrivateMsg(userId, "hello", false);
+    
+                // 不执行下一个插件
+                return MESSAGE_BLOCK;
             }
+            // 继续执行下一个插件
+            return MESSAGE_IGNORE;
         }
-        ```
-
-    - 说话插件
-        ```java
-        public class SayPlugin extends CQPlugin {
-            @Override
-            public int onPrivateMessage(CoolQ cq, CQPrivateMessageEvent event) {
-                long user_id = event.getSender().getUserId();
-                String msg = event.getMessage();
-                if (msg.startsWith("say")) {
-                    cq.sendPrivateMsg(user_id, msg.substring(3), false);
-                }
-                return MESSAGE_IGNORE; // 继续执行下一个插件
-                // return MESSAGE_BLOCK; // 不执行下一个插件
+    
+     
+        /**
+         * 收到群消息时会调用这个方法
+         *
+         * @param cq    机器人对象，用于调用API，例如发送群消息 sendGroupMsg
+         * @param event 事件对象，用于获取消息内容、群号、发送者QQ等
+         * @return 是否继续调用下一个插件，IGNORE表示继续，BLOCK表示不继续
+         */
+        @Override
+        public int onGroupMessage(CoolQ cq, CQGroupMessageEvent event) {
+            // 获取 消息内容 群号 发送者QQ
+            String msg = event.getMessage();
+            long groupId = event.getGroupId();
+            long userId = event.getUserId();
+    
+            if (msg.equals("hello")) {
+                // 回复内容为 at发送者 + hi
+                String result = CQCode.at(userId) + "hi";
+    
+                // 调用API发送消息
+                cq.sendGroupMsg(groupId, result, false);
+    
+                // 不执行下一个插件
+                return MESSAGE_BLOCK;
             }
+    
+            // 继续执行下一个插件
+            return MESSAGE_BLOCK;
         }
-        ```
+    }
+    ```
 
 2. 修改PluginConfig，配置顺序
     ```java
+    /**
+     * 插件配置类
+     * 在pluginList中配置需要执行插件的顺序
+     * 收到消息后会按顺序调用插件
+     * <p>
+     * 提示：
+     * 如果前一个插件返回MESSAGE_BLOCK，那么之后的插件不会继续处理
+     * 如果前一个插件返回MESSAGE_IGNORE，那么之后的插件会继续处理
+     */
     public class PluginConfig {
         public static List<CQPlugin> pluginList = new ArrayList<>();
     
         static {
+            pluginList.add(new StatusPlugin()); // 状态监控插件
             pluginList.add(new LogPlugin()); // 日志插件
-            pluginList.add(new PrefixPlugin()); // 前缀处理插件
-            pluginList.add(new SayPlugin()); // 说话插件
+            // pluginList.add(new PrefixPlugin()); //前缀处理插件 如果需要给所有指令加上前缀，比如“.”、“/”，可以使用这个插件在此统一处理
+            pluginList.add(new ExamplePlugin()); // 示例插件
         }
-    
     }
     ```
 
