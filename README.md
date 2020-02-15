@@ -116,12 +116,28 @@
     java -jar spring-cq-0.0.1-SNAPSHOT.jar
     ```
 
-## 运行酷Q和cqhttp(Windows)
-1. 点击 [下载](http://cq.lz1998.xin/CQA.zip) 配置好的 酷Q Air 
+## Windows运行酷Q和cqhttp
+1. 准备酷Q Air
+    - 方案一：点击 [下载](http://cq.lz1998.xin/CQA.zip) 已经配置好cqhttp的 酷Q Air 
+    - 方案二：自己配置
+        1. 下载[酷Q Air](https://cqp.cc/t/23253)
+        2. 下载[CQHTTP插件](https://github.com/richardchien/coolq-http-api/releases)
+        3. 创建文件`酷Q Air\data\app\io.github.richardchien.coolqhttpapi\config.ini`
+            ```ini
+            [general]
+            use_http=false
+            use_ws_reverse=true
+            ws_reverse_url=ws://127.0.0.1:8081/ws/cq/
+            ws_reverse_use_universal_client=true
+            enable_heartbeat=true
+            heartbeat_interval=60000
+            ```
 2. 解压后运行 CQA.exe 登录QQ账号 
 
 
-## 运行酷Q和cqhttp(Docker)
+
+
+## Docker运行酷Q和cqhttp
 1. 安装酷Q和CQHTTP插件
     ```shell
     docker run -d --name cq01 \
