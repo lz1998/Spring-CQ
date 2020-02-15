@@ -115,6 +115,7 @@
     ```bash
     java -jar spring-cq-0.0.1-SNAPSHOT.jar
     ```
+如果是Windows，并且不需要查看运行情况，可以直接双击jar文件运行，右下角托盘会出现小图标
 
 ## Windows运行酷Q和cqhttp
 1. 准备酷Q Air
