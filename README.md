@@ -148,6 +148,20 @@
     -e COOLQ_ACCOUNT=你的机器人QQ号 \
     -e CQHTTP_USE_HTTP=false \
     -e CQHTTP_USE_WS_REVERSE=true \
+    -e CQHTTP_WS_REVERSE_URL=ws://宿主机地址:8081/ws/cq/ \
+    -e CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true \
+    richardchien/cqhttp
+    ```
+    如果不知道宿主机地址是什么，可以使用Docker的host模式，共享主机网络
+    ```bash
+    docker run -d --name cq01 \
+    -v $(pwd)/coolq:/home/user/coolq \
+    --net=host \
+    -e VNC_PASSWD=你的VNC密码(不超过8位) \
+    -e COOLQ_URL=http://dlsec.cqp.me/cqa-tuling \
+    -e COOLQ_ACCOUNT=你的机器人QQ号 \
+    -e CQHTTP_USE_HTTP=false \
+    -e CQHTTP_USE_WS_REVERSE=true \
     -e CQHTTP_WS_REVERSE_URL=ws://127.0.0.1:8081/ws/cq/ \
     -e CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true \
     richardchien/cqhttp
