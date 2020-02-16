@@ -4,6 +4,12 @@
 
 基于 酷Q、cqhttp、SpringBoot、反向websocket 的 QQ 机器人框架
 
+## 开发环境
+- IntelliJ IDEA Ultimate(学生认证免费)
+- IntelliJ IDEA中的lombok插件，File->Settings->Plugins->搜索Lombok->Install->重启IDEA
+- JDK IDEA自动安装，不需要自己装
+- MAVEN IDEA自动安装，不需要自己装
+
 ## 编写插件
 1. 在xin.lz1998.bot.plugin下写XXXPlugin，继承CQPlugin  
     ```java
