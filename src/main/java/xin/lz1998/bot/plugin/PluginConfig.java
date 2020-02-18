@@ -17,7 +17,7 @@ import java.util.List;
  * 如果前一个插件返回MESSAGE_BLOCK，那么之后的插件不会继续处理
  * 如果前一个插件返回MESSAGE_IGNORE，那么之后的插件会继续处理
  */
-public class PluginConfig {
+public class PluginConfig implements PluginConfigInterface {
     public static List<CQPlugin> pluginList = new ArrayList<>();
 
     static {
@@ -25,5 +25,10 @@ public class PluginConfig {
         pluginList.add(new LogPlugin()); // 日志插件
         // pluginList.add(new PrefixPlugin()); //前缀处理插件 如果需要给所有指令加上前缀，比如“.”、“/”，可以使用这个插件在此统一处理
         pluginList.add(new ExamplePlugin()); // 示例插件
+    }
+
+    @Override
+    public List<CQPlugin> getList() {
+        return pluginList;
     }
 }

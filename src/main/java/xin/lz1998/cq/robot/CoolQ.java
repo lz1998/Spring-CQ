@@ -5,6 +5,11 @@ import com.alibaba.fastjson.TypeReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketSession;
 import xin.lz1998.cq.entity.CQGroupAnonymous;
 import xin.lz1998.cq.entity.CQStatus;
@@ -14,6 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
+@Service
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class CoolQ {
 
     @Getter
@@ -24,13 +31,16 @@ public class CoolQ {
     @Setter
     private WebSocketSession botSession;
 
+    private EventHandler eventHandler;
+
 
     private int apiEcho = 0;//用于标记是哪次发送api，接受时作为key放入apiResponseMap
 
     private Map<String, ApiSender> apiCallbackMap = new HashMap<>();//用于存放api调用，收到响应时put，处理完成remove
 
-    public CoolQ(long selfId) {
-        this.selfId = selfId;
+    @Autowired
+    public CoolQ(EventHandler eventHandler) {
+        this.eventHandler = eventHandler;
     }
 
     public void onReceiveApiMessage(JSONObject message) {
@@ -60,8 +70,9 @@ public class CoolQ {
     }
 
     public void onReceiveEventMessage(JSONObject message) {
+
         log.debug(selfId + " RECV Event {}", message);
-        new Thread(() -> EventHandler.handle(CoolQ.this, message)).start();
+        new Thread(() -> eventHandler.handle(CoolQ.this, message)).start();
     }
 
 
