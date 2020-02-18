@@ -19,8 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@Service
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class CoolQ {
 
     @Getter
@@ -33,14 +31,17 @@ public class CoolQ {
 
     private EventHandler eventHandler;
 
-
     private int apiEcho = 0;//用于标记是哪次发送api，接受时作为key放入apiResponseMap
 
     private Map<String, ApiSender> apiCallbackMap = new HashMap<>();//用于存放api调用，收到响应时put，处理完成remove
 
-    @Autowired
-    public CoolQ(EventHandler eventHandler) {
+    private RobotConfigInterface robotConfig;
+
+    public CoolQ(long selfId, WebSocketSession botSession, EventHandler eventHandler,RobotConfigInterface robotConfig) {
+        this.selfId = selfId;
+        this.botSession = botSession;
         this.eventHandler = eventHandler;
+        this.robotConfig=robotConfig;
     }
 
     public void onReceiveApiMessage(JSONObject message) {
@@ -59,9 +60,9 @@ public class CoolQ {
         log.debug("{} SEND API   {} {}", selfId, action.getDesc(), params);
         JSONObject retJson;
         try {
-            retJson = apiSender.sendApiJson(apiJSON);
+            retJson = apiSender.sendApiJson(apiJSON,robotConfig.getApiTimeout());
         } catch (Exception e) {
-            log.error(e.toString());
+            e.printStackTrace();
             retJson = new JSONObject();
             retJson.put("status", "failed");
             retJson.put("retcode", -1);
@@ -72,6 +73,7 @@ public class CoolQ {
     public void onReceiveEventMessage(JSONObject message) {
 
         log.debug(selfId + " RECV Event {}", message);
+        // TODO 这里改为线程池，或者在WebSocketHandler/EventHandler里面加线程池
         new Thread(() -> eventHandler.handle(CoolQ.this, message)).start();
     }
 

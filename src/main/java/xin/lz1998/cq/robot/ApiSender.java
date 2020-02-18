@@ -16,12 +16,12 @@ class ApiSender extends Thread {
         this.apiSession = apiSession;
     }
 
-    JSONObject sendApiJson(JSONObject apiJSON) throws IOException, InterruptedException {
+    JSONObject sendApiJson(JSONObject apiJSON,Integer timeout) throws IOException, InterruptedException {
         synchronized (apiSession){
             apiSession.sendMessage(new TextMessage(apiJSON.toJSONString()));
         }
         synchronized (this) {
-            this.wait(RobotConfig.CQ_API_TIMEOUT);
+            this.wait(timeout);
         }
         return responseJSON;
     }

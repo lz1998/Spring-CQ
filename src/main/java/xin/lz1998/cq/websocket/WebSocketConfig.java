@@ -7,21 +7,24 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
+import xin.lz1998.cq.robot.RobotConfigInterface;
 
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
     private WebSocketHandler webSocketHandler;
+    private RobotConfigInterface robotConfig;
 
     @Autowired
-    public WebSocketConfig(WebSocketHandler webSocketHandler) {
+    public WebSocketConfig(WebSocketHandler webSocketHandler, RobotConfigInterface robotConfig) {
         this.webSocketHandler = webSocketHandler;
+        this.robotConfig = robotConfig;
     }
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(webSocketHandler, "/ws/*/").setAllowedOrigins("*");
+        registry.addHandler(webSocketHandler, robotConfig.getWebSocketUrl()).setAllowedOrigins("*");
     }
 
     @Bean

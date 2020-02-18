@@ -11,17 +11,18 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import xin.lz1998.Global;
 import xin.lz1998.cq.robot.CoolQ;
+import xin.lz1998.cq.robot.CoolQFactory;
 
 
 @Slf4j
 @Service
 public class WebSocketHandler extends TextWebSocketHandler {
 
-    private CoolQ coolQ;
+    private CoolQFactory coolQFactory;
 
     @Autowired
-    public WebSocketHandler(CoolQ coolQ) {
-        this.coolQ = coolQ;
+    public WebSocketHandler(CoolQFactory coolQFactory) {
+        this.coolQFactory = coolQFactory;
     }
 
     @Override
@@ -42,11 +43,16 @@ public class WebSocketHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) {
         long xSelfId = Long.valueOf(session.getHandshakeHeaders().get("x-self-id").get(0));
         log.info("{} connected", xSelfId);
-        coolQ.setSelfId(xSelfId);
-        Global.robots.putIfAbsent(xSelfId, coolQ);
-        CoolQ robot = Global.robots.get(xSelfId);
-        robot.setSelfId(xSelfId);
-        robot.setBotSession(session);
+
+        // 如果在session连接时，已经有重复的QQ号在Map中，说明之前的是错误的，删除之前的
+        if(Global.robots.containsKey(xSelfId)){
+            Global.robots.remove(xSelfId);
+        }
+
+        CoolQ cq=coolQFactory.createCoolQ(xSelfId,session);
+
+        // 存入Map，方便在未收到消息时调用API发送消息(定时、Controller或其他方式触发)
+        Global.robots.put(xSelfId,cq);
     }
 
     @Override

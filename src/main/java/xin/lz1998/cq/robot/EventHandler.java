@@ -3,7 +3,6 @@ package xin.lz1998.cq.robot;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xin.lz1998.bot.plugin.PluginConfigInterface;
 import xin.lz1998.cq.event.message.CQDiscussMessageEvent;
 import xin.lz1998.cq.event.message.CQGroupMessageEvent;
 import xin.lz1998.cq.event.message.CQPrivateMessageEvent;
@@ -21,8 +20,8 @@ class EventHandler {
     private List<CQPlugin> cqPlugins;
 
     @Autowired
-    EventHandler(PluginConfigInterface pluginConfigInterface) {
-        this.cqPlugins = pluginConfigInterface.getList();
+    EventHandler(RobotConfigInterface robotConfig) {
+        this.cqPlugins = robotConfig.getPluginList();
     }
 
 
