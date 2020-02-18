@@ -1,5 +1,6 @@
 package xin.lz1998.bot.plugin;
 
+import org.springframework.stereotype.Component;
 import xin.lz1998.bot.plugin.log.LogPlugin;
 import xin.lz1998.bot.plugin.example.ExamplePlugin;
 import xin.lz1998.bot.plugin.status.StatusPlugin;
@@ -17,6 +18,7 @@ import java.util.List;
  * 如果前一个插件返回MESSAGE_BLOCK，那么之后的插件不会继续处理
  * 如果前一个插件返回MESSAGE_IGNORE，那么之后的插件会继续处理
  */
+@Component
 public class PluginConfig implements PluginConfigInterface {
     public static List<CQPlugin> pluginList = new ArrayList<>();
 
