@@ -67,6 +67,6 @@ public class ExamplePlugin extends CQPlugin {
         }
 
         // 继续执行下一个插件
-        return MESSAGE_BLOCK;
+        return MESSAGE_IGNORE;
     }
 }
