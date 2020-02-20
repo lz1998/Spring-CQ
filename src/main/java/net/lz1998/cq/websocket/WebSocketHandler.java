@@ -35,7 +35,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
             robot.onReceiveApiMessage(recvJson);
         } else {
             // 不带有echo是事件上报
-            robot.onReceiveEventMessage(recvJson);
+            CQGlobal.executor.execute(() -> robot.onReceiveEventMessage(recvJson));
         }
     }
 
