@@ -15,11 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 class EventHandler {
 
-    
-
-
     public void handle(CoolQ cq, JSONObject eventJson) {
-        System.out.println(eventJson);
         String postType = eventJson.getString("post_type");
         switch (postType) {
             case "message": {
