@@ -36,9 +36,9 @@ public class CoolQ {
 
     @Getter
     @Setter
-    private List<CQPlugin> pluginList;
+    private List<Class<? extends CQPlugin>> pluginList;
 
-    public CoolQ(long selfId, WebSocketSession botSession, EventHandler eventHandler,List<CQPlugin> pluginList) {
+    public CoolQ(long selfId, WebSocketSession botSession, EventHandler eventHandler,List<Class<? extends CQPlugin>> pluginList) {
         this.selfId = selfId;
         this.botSession = botSession;
         this.eventHandler = eventHandler;
