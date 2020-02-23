@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.lz1998</groupId>
-    <artifactId>spring-cq</artifactId>
+    <artifactId>cq</artifactId>
     <version>4.14.0.4</version>
     <modules>
         <module>spring-cq</module>
