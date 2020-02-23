@@ -5,7 +5,6 @@ import com.alibaba.fastjson.TypeReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import net.lz1998.cq.CQGlobal;
 import net.lz1998.cq.entity.CQGroupAnonymous;
 import net.lz1998.cq.entity.CQStatus;
 import net.lz1998.cq.retdata.*;
