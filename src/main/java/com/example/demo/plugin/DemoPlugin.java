@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 示例插件
- * 插件必须继承CQPlugin
+ * 插件必须继承CQPlugin，上面要 @Component
  *
  * 添加事件：光标移动到类中，按 Ctrl+O 添加事件(讨论组消息、加群请求、加好友请求等)
  * 查看API参数类型：光标移动到方法括号中按Ctrl+P

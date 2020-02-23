@@ -7,6 +7,7 @@ import net.lz1998.cq.EnableCQ;
 @EnableCQ
 public class Config {
     public static void init(){
-        CQGlobal.pluginList.add(DemoPlugin.class);
+        CQGlobal.pluginList.add(DemoPlugin.class); // 示例插件
+        // CQGlobal.pluginList.add(XXXXXXXX); // 如果还有别的功能，在这里add，模仿上面一行
     }
 }
