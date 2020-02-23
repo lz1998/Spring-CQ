@@ -176,6 +176,12 @@ class EventHandler {
     }
 
     private CQPlugin getPlugin(Class<? extends CQPlugin> pluginClass) {
-        return applicationContext.getBean(pluginClass);
+        try {
+            Class<?> aClass = Class.forName(pluginClass.getName());
+            return (CQPlugin) applicationContext.getBean(aClass);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
