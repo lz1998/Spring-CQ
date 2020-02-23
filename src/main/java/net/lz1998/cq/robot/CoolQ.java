@@ -11,6 +11,7 @@ import net.lz1998.cq.entity.CQStatus;
 import net.lz1998.cq.retdata.*;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,24 @@ public class CoolQ {
         return retJson;
     }
 
+    /**
+     * 调用自定义API(试验性)
+     * @param url cqhttp文档中的url，比如_get_group_notice
+     * @param params 其他参数，json形式
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public JSONObject sendApiMessage(String url,JSONObject params) throws IOException, InterruptedException {
+        JSONObject apiJSON = constructApiJSON(url, params);
+        String echo = apiJSON.getString("echo");
+        ApiSender apiSender = new ApiSender(botSession);
+        apiCallbackMap.put(echo, apiSender);
+        log.debug("{} SEND API   {} {}", selfId, url, params);
+        JSONObject retJson;
+        retJson = apiSender.sendApiJson(apiJSON);
+        return retJson;
+    }
     public void onReceiveEventMessage(JSONObject message) {
 
         log.debug(selfId + " RECV Event {}", message);
@@ -80,6 +99,12 @@ public class CoolQ {
     }
 
 
+    /**
+     * 构造API需要的json，使用预定义的Enum
+     * @param action 需要调用的API
+     * @param params 参数
+     * @return
+     */
     private JSONObject constructApiJSON(ApiEnum action, JSONObject params) {
         JSONObject apiJSON = new JSONObject();
         apiJSON.put("action", action.getUrl());
@@ -87,6 +112,21 @@ public class CoolQ {
             apiJSON.put("params", params);
         apiJSON.put("echo", apiEcho++);
 
+        return apiJSON;
+    }
+
+    /**
+     * 构造API需要的json，使用url方式
+     * @param url url
+     * @param params 其他参数
+     * @return
+     */
+    private JSONObject constructApiJSON(String url, JSONObject params) {
+        JSONObject apiJSON = new JSONObject();
+        apiJSON.put("action", url);
+        if (params != null)
+            apiJSON.put("params", params);
+        apiJSON.put("echo", apiEcho++);
         return apiJSON;
     }
 
