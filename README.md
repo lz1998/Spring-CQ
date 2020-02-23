@@ -6,6 +6,10 @@
 
 视频教程：https://www.bilibili.com/video/av89649630/
 
+教程可能和现在版本略微有点差别，但是基本相同
+
+demo分支是例子，jar分支是maven仓库的spring-cq
+
 ## 开发环境
 - IntelliJ IDEA Ultimate(学生认证免费)
 - IntelliJ IDEA中的lombok插件，File->Settings->Plugins->搜索Lombok->Install->重启IDEA
@@ -21,6 +25,7 @@
     </dependency>
 ```
 
+为了避免一些问题，推荐直接下载demo修改
 
 ## 编写插件
 1. 编写XXXPlugin，继承CQPlugin  
