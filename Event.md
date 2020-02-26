@@ -1,6 +1,6 @@
 # 事件上报
 
-> 这部分是从https://cqhttp.cc/docs/4.14/#/Post抄过来改一改的
+> 这部分是从  https://cqhttp.cc/docs/4.14/#/Post  抄过来改一改的
 >
 > 数据类型的 number (int64) 就是 Long
 >

@@ -1,6 +1,6 @@
 # API 说明
 
-> 这部分是从https://cqhttp.cc/docs/4.14/#/API抄过来改一改的
+> 这部分是从  https://cqhttp.cc/docs/4.14/#/API  抄过来改一改的
 
 ### 获取CoolQ对象
 
