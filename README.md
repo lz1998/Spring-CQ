@@ -4,9 +4,13 @@
 
 基于 酷Q、cqhttp、SpringBoot、反向websocket 的 QQ 机器人框架
 
-视频教程：https://www.bilibili.com/video/av89649630/
+这个README主要讲了总体使用方法
 
-教程可能和现在版本略微有点差别，但是基本相同
+详细API文档:https://github.com/lz1998/Spring-CQ/blob/demo/API.md
+
+详细Event文档：https://github.com/lz1998/Spring-CQ/blob/demo/Event.md
+
+视频教程：https://www.bilibili.com/video/av89649630/
 
 demo分支是例子，jar分支是maven仓库的spring-cq
 
