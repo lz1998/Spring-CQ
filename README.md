@@ -29,7 +29,8 @@ demo分支是例子，jar分支是maven仓库的spring-cq
     </dependency>
 ```
 
-为了避免一些问题，推荐直接下载demo修改
+推荐SpringBoot 2.1.8  
+为了避免一些问题，可以直接下载demo修改
 
 ## 编写插件
 1. 编写XXXPlugin，继承CQPlugin  
