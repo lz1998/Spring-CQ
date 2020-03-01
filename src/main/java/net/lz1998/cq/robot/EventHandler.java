@@ -12,15 +12,14 @@ import net.lz1998.cq.event.request.CQGroupRequestEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 
 @Component
 public class EventHandler {
 
-    final
-    ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
+    @Autowired
     public EventHandler(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
