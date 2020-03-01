@@ -508,7 +508,7 @@ public class CoolQ {
         params.put("user_id", user_id);
         params.put("no_cache", no_cache);
 
-        ApiData<StrangerInfoData> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiData<StrangerInfoData>>() {
+        ApiData<StrangerInfoData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<StrangerInfoData>>() {
         });
         return result;
     }
