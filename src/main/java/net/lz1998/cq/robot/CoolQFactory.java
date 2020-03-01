@@ -7,15 +7,15 @@ import org.springframework.web.socket.WebSocketSession;
 
 @Service
 public class CoolQFactory {
-    private EventHandler eventHandler;
+    private ApiHandler apiHandler;
 
     @Autowired
-    public CoolQFactory(EventHandler eventHandler) {
-        this.eventHandler = eventHandler;
+    public CoolQFactory(ApiHandler apiHandler) {
+        this.apiHandler = apiHandler;
     }
 
     public CoolQ createCoolQ(Long selfId, WebSocketSession botSession){
-        CoolQ cq=new CoolQ(selfId,botSession,eventHandler, CQGlobal.pluginList);
+        CoolQ cq=new CoolQ(selfId,botSession,apiHandler, CQGlobal.pluginList);
         return cq;
     }
 }

@@ -11,14 +11,19 @@ import net.lz1998.cq.event.request.CQFriendRequestEvent;
 import net.lz1998.cq.event.request.CQGroupRequestEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 
-@Service
-class EventHandler {
+@Component
+public class EventHandler {
 
-    @Autowired
+    final
     ApplicationContext applicationContext;
+
+    public EventHandler(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     public void handle(CoolQ cq, JSONObject eventJson) {
         String postType = eventJson.getString("post_type");

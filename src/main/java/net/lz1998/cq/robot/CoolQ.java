@@ -5,16 +5,13 @@ import com.alibaba.fastjson.TypeReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import net.lz1998.cq.CQGlobal;
 import net.lz1998.cq.entity.CQGroupAnonymous;
 import net.lz1998.cq.entity.CQStatus;
 import net.lz1998.cq.retdata.*;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 public class CoolQ {
@@ -27,107 +24,30 @@ public class CoolQ {
     @Setter
     private WebSocketSession botSession;
 
-    private EventHandler eventHandler;
-
-    private int apiEcho = 0;//用于标记是哪次发送api，接受时作为key放入apiResponseMap
-
-    private Map<String, ApiSender> apiCallbackMap = new HashMap<>();//用于存放api调用，收到响应时put，处理完成remove
-
+    private ApiHandler apiHandler;
 
 
     @Getter
     @Setter
     private List<Class<? extends CQPlugin>> pluginList;
 
-    public CoolQ(long selfId, WebSocketSession botSession, EventHandler eventHandler,List<Class<? extends CQPlugin>> pluginList) {
+    public CoolQ(long selfId, WebSocketSession botSession, ApiHandler apiHandler, List<Class<? extends CQPlugin>> pluginList) {
         this.selfId = selfId;
         this.botSession = botSession;
-        this.eventHandler = eventHandler;
-        this.pluginList= pluginList;
-    }
-
-    public void onReceiveApiMessage(JSONObject message) {
-        log.debug(selfId + " RECV API   {}", message);
-        String echo = message.get("echo").toString();
-        ApiSender apiSender = apiCallbackMap.get(echo);
-        apiSender.onReceiveJson(message);
-        apiCallbackMap.remove(echo);
-    }
-
-    private JSONObject sendApiMessage(ApiEnum action, JSONObject params) {
-        JSONObject apiJSON = constructApiJSON(action, params);
-        String echo = apiJSON.getString("echo");
-        ApiSender apiSender = new ApiSender(botSession);
-        apiCallbackMap.put(echo, apiSender);
-        log.debug("{} SEND API   {} {}", selfId, action.getDesc(), params);
-        JSONObject retJson;
-        try {
-            retJson = apiSender.sendApiJson(apiJSON);
-        } catch (Exception e) {
-            e.printStackTrace();
-            retJson = new JSONObject();
-            retJson.put("status", "failed");
-            retJson.put("retcode", -1);
-        }
-        return retJson;
+        this.apiHandler = apiHandler;
+        this.pluginList = pluginList;
     }
 
     /**
-     * 调用自定义API(试验性)
-     * @param url cqhttp文档中的url，比如_get_group_notice
-     * @param params 其他参数，json形式
+     * 调用自定义的API
+     * @param apiRequest 包含String url, JsonObject params
      * @return
      * @throws IOException
      * @throws InterruptedException
      */
-    public JSONObject sendApiMessage(String url,JSONObject params) throws IOException, InterruptedException {
-        JSONObject apiJSON = constructApiJSON(url, params);
-        String echo = apiJSON.getString("echo");
-        ApiSender apiSender = new ApiSender(botSession);
-        apiCallbackMap.put(echo, apiSender);
-        log.debug("{} SEND API   {} {}", selfId, url, params);
-        JSONObject retJson;
-        retJson = apiSender.sendApiJson(apiJSON);
-        return retJson;
-    }
-    public void onReceiveEventMessage(JSONObject message) {
-
-        log.debug(selfId + " RECV Event {}", message);
-        // TODO 这里改为线程池，或者在WebSocketHandler/EventHandler里面加线程池
-        eventHandler.handle(CoolQ.this, message);
-
-    }
-
-
-    /**
-     * 构造API需要的json，使用预定义的Enum
-     * @param action 需要调用的API
-     * @param params 参数
-     * @return
-     */
-    private JSONObject constructApiJSON(ApiEnum action, JSONObject params) {
-        JSONObject apiJSON = new JSONObject();
-        apiJSON.put("action", action.getUrl());
-        if (params != null)
-            apiJSON.put("params", params);
-        apiJSON.put("echo", apiEcho++);
-
-        return apiJSON;
-    }
-
-    /**
-     * 构造API需要的json，使用url方式
-     * @param url url
-     * @param params 其他参数
-     * @return
-     */
-    private JSONObject constructApiJSON(String url, JSONObject params) {
-        JSONObject apiJSON = new JSONObject();
-        apiJSON.put("action", url);
-        if (params != null)
-            apiJSON.put("params", params);
-        apiJSON.put("echo", apiEcho++);
-        return apiJSON;
+    @SuppressWarnings("unused")
+    public ApiData callCustomApi(IApiRequest apiRequest) throws IOException, InterruptedException {
+        return apiHandler.sendApiMessage(botSession,apiRequest).toJavaObject(ApiData.class);
     }
 
     /**
@@ -146,7 +66,7 @@ public class CoolQ {
         params.put("message", message);
         params.put("auto_escape", auto_escape);
 
-        ApiData<MessageData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<MessageData>>() {
+        ApiData<MessageData> result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(new TypeReference<ApiData<MessageData>>() {
         });
         return result;
     }
@@ -169,7 +89,7 @@ public class CoolQ {
         params.put("auto_escape", auto_escape);
 
 
-        ApiData<MessageData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<MessageData>>() {
+        ApiData<MessageData> result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(new TypeReference<ApiData<MessageData>>() {
         });
         return result;
     }
@@ -190,7 +110,7 @@ public class CoolQ {
         params.put("message", message);
         params.put("auto_escape", auto_escape);
 
-        ApiData<MessageData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<MessageData>>() {
+        ApiData<MessageData> result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(new TypeReference<ApiData<MessageData>>() {
         });
         return result;
     }
@@ -207,7 +127,7 @@ public class CoolQ {
         JSONObject params = new JSONObject();
         params.put("message_id", message_id);
 
-        ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(ApiRawData.class);
         return result;
     }
 
@@ -225,7 +145,7 @@ public class CoolQ {
         params.put("user_id", user_id);
         params.put("times", times);
 
-        ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(ApiRawData.class);
         return result;
     }
 
@@ -245,7 +165,7 @@ public class CoolQ {
         params.put("user_id", user_id);
         params.put("reject_add_request", reject_add_request);
 
-        ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(ApiRawData.class);
         return result;
     }
 
@@ -265,7 +185,7 @@ public class CoolQ {
         params.put("user_id", user_id);
         params.put("duration", duration);
 
-        ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(ApiRawData.class);
         return result;
     }
 
@@ -285,7 +205,7 @@ public class CoolQ {
         params.put("anonymous", cqGroupAnonymous);
         params.put("duration", duration);
 
-        ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(ApiRawData.class);
         return result;
     }
 
@@ -305,7 +225,7 @@ public class CoolQ {
         params.put("flag", flag);
         params.put("duration", duration);
 
-        ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(ApiRawData.class);
         return result;
     }
 
@@ -322,7 +242,7 @@ public class CoolQ {
         params.put("group_id", group_id);
         params.put("enable", enable);
 
-        ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(ApiRawData.class);
         return result;
     }
 
@@ -342,7 +262,7 @@ public class CoolQ {
         params.put("user_id", user_id);
         params.put("enable", enable);
 
-        ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(ApiRawData.class);
         return result;
     }
 
@@ -360,7 +280,7 @@ public class CoolQ {
         params.put("group_id", group_id);
         params.put("enable", enable);
 
-        ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(ApiRawData.class);
         return result;
     }
 
@@ -380,7 +300,7 @@ public class CoolQ {
         params.put("user_id", user_id);
         params.put("card", card);
 
-        ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(ApiRawData.class);
         return result;
     }
 
@@ -396,7 +316,7 @@ public class CoolQ {
         params.put("group_id", group_id);
         params.put("is_dismiss", is_dismiss);
 
-        ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(ApiRawData.class);
         return result;
     }
 
@@ -418,7 +338,7 @@ public class CoolQ {
         params.put("special_title", special_title);
         params.put("duration", duration);
 
-        ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(ApiRawData.class);
         return result;
     }
 
@@ -434,7 +354,7 @@ public class CoolQ {
         JSONObject params = new JSONObject();
         params.put("discuss_id", discuss_id);
 
-        ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(ApiRawData.class);
         return result;
     }
 
@@ -454,7 +374,7 @@ public class CoolQ {
         params.put("approve", approve);
         params.put("remark", remark);
 
-        ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(ApiRawData.class);
         return result;
     }
 
@@ -476,7 +396,7 @@ public class CoolQ {
         params.put("approve", approve);
         params.put("reason", reason);
 
-        ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(ApiRawData.class);
         return result;
     }
 
@@ -488,7 +408,7 @@ public class CoolQ {
     public ApiData<LoginInfoData> getLoginInfo() {
         ApiEnum action = ApiEnum.GET_LOGIN_INFO;
 
-        ApiData<LoginInfoData> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiData<LoginInfoData>>() {
+        ApiData<LoginInfoData> result = apiHandler.sendApiMessage(botSession, action, null).toJavaObject(new TypeReference<ApiData<LoginInfoData>>() {
         });
         return result;
     }
@@ -508,7 +428,7 @@ public class CoolQ {
         params.put("user_id", user_id);
         params.put("no_cache", no_cache);
 
-        ApiData<StrangerInfoData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<StrangerInfoData>>() {
+        ApiData<StrangerInfoData> result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(new TypeReference<ApiData<StrangerInfoData>>() {
         });
         return result;
     }
@@ -520,7 +440,7 @@ public class CoolQ {
      */
     public ApiListData<FriendData> getFriendList() {
         ApiEnum action = ApiEnum.GET_FRIEND_LIST;
-        ApiListData<FriendData> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiListData<FriendData>>() {
+        ApiListData<FriendData> result = apiHandler.sendApiMessage(botSession, action, null).toJavaObject(new TypeReference<ApiListData<FriendData>>() {
         });
         return result;
     }
@@ -533,7 +453,7 @@ public class CoolQ {
     public ApiListData<GroupData> getGroupList() {
         ApiEnum action = ApiEnum.GET_GROUP_LIST;
 
-        ApiListData<GroupData> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiListData<GroupData>>() {
+        ApiListData<GroupData> result = apiHandler.sendApiMessage(botSession, action, null).toJavaObject(new TypeReference<ApiListData<GroupData>>() {
         });
         return result;
     }
@@ -550,7 +470,7 @@ public class CoolQ {
         JSONObject params = new JSONObject();
         params.put("group_id", group_id);
         params.put("no_cache", no_cache);
-        ApiData<GroupInfoData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<GroupInfoData>>() {
+        ApiData<GroupInfoData> result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(new TypeReference<ApiData<GroupInfoData>>() {
         });
         return result;
     }
@@ -571,7 +491,7 @@ public class CoolQ {
         params.put("user_id", user_id);
         params.put("no_cache", no_cache);
 
-        ApiData<GroupMemberInfoData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<GroupMemberInfoData>>() {
+        ApiData<GroupMemberInfoData> result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(new TypeReference<ApiData<GroupMemberInfoData>>() {
         });
         return result;
     }
@@ -589,7 +509,7 @@ public class CoolQ {
         JSONObject params = new JSONObject();
 
         params.put("group_id", group_id);
-        ApiListData<GroupMemberInfoData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiListData<GroupMemberInfoData>>() {
+        ApiListData<GroupMemberInfoData> result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(new TypeReference<ApiListData<GroupMemberInfoData>>() {
         });
 
         return result;
@@ -608,7 +528,7 @@ public class CoolQ {
         JSONObject params = new JSONObject();
         params.put("domain", domain);
 
-        ApiData<CookiesData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<CookiesData>>() {
+        ApiData<CookiesData> result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(new TypeReference<ApiData<CookiesData>>() {
         });
         return result;
     }
@@ -621,7 +541,7 @@ public class CoolQ {
     public ApiData<CsrfTokenData> getCsrfToken() {
         ApiEnum action = ApiEnum.GET_CSRF_TOKEN;
 
-        ApiData<CsrfTokenData> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiData<CsrfTokenData>>() {
+        ApiData<CsrfTokenData> result = apiHandler.sendApiMessage(botSession, action, null).toJavaObject(new TypeReference<ApiData<CsrfTokenData>>() {
         });
         return result;
     }
@@ -639,7 +559,7 @@ public class CoolQ {
         JSONObject params = new JSONObject();
         params.put("domain", domain);
 
-        ApiData<CredentialsData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<CredentialsData>>() {
+        ApiData<CredentialsData> result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(new TypeReference<ApiData<CredentialsData>>() {
         });
         return result;
     }
@@ -660,7 +580,7 @@ public class CoolQ {
         params.put("out_format", out_format);
         params.put("full_path", full_path);
 
-        ApiData<FileData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<FileData>>() {
+        ApiData<FileData> result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(new TypeReference<ApiData<FileData>>() {
         });
         return result;
     }
@@ -677,7 +597,7 @@ public class CoolQ {
         JSONObject params = new JSONObject();
         params.put("file", file);
 
-        ApiData<FileData> result = sendApiMessage(action, params).toJavaObject(new TypeReference<ApiData<FileData>>() {
+        ApiData<FileData> result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(new TypeReference<ApiData<FileData>>() {
         });
         return result;
     }
@@ -690,7 +610,7 @@ public class CoolQ {
     public ApiData<BooleanData> canSendImage() {
         ApiEnum action = ApiEnum.CAN_SEND_IMAGE;
 
-        ApiData<BooleanData> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiData<BooleanData>>() {
+        ApiData<BooleanData> result = apiHandler.sendApiMessage(botSession, action, null).toJavaObject(new TypeReference<ApiData<BooleanData>>() {
         });
         return result;
     }
@@ -703,7 +623,7 @@ public class CoolQ {
     public ApiData<BooleanData> canSendRecord() {
         ApiEnum action = ApiEnum.CAN_SEND_RECORD;
 
-        ApiData<BooleanData> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiData<BooleanData>>() {
+        ApiData<BooleanData> result = apiHandler.sendApiMessage(botSession, action, null).toJavaObject(new TypeReference<ApiData<BooleanData>>() {
         });
         return result;
     }
@@ -716,7 +636,7 @@ public class CoolQ {
     public ApiData<CQStatus> getStatus() {
         ApiEnum action = ApiEnum.GET_STATUS;
 
-        ApiData<CQStatus> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiData<CQStatus>>() {
+        ApiData<CQStatus> result = apiHandler.sendApiMessage(botSession, action, null).toJavaObject(new TypeReference<ApiData<CQStatus>>() {
         });
         return result;
     }
@@ -730,7 +650,7 @@ public class CoolQ {
     public ApiData<VersionInfoData> getVersionInfo() {
         ApiEnum action = ApiEnum.GET_VERSION_INFO;
 
-        ApiData<VersionInfoData> result = sendApiMessage(action, null).toJavaObject(new TypeReference<ApiData<VersionInfoData>>() {
+        ApiData<VersionInfoData> result = apiHandler.sendApiMessage(botSession, action, null).toJavaObject(new TypeReference<ApiData<VersionInfoData>>() {
         });
         return result;
     }
@@ -747,7 +667,7 @@ public class CoolQ {
         JSONObject params = new JSONObject();
         params.put("delay", delay);
 
-        ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(ApiRawData.class);
         return result;
     }
 
@@ -763,7 +683,7 @@ public class CoolQ {
         JSONObject params = new JSONObject();
         params.put("data_dir", data_dir);
 
-        ApiRawData result = sendApiMessage(action, params).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, params).toJavaObject(ApiRawData.class);
         return result;
     }
 
@@ -775,7 +695,7 @@ public class CoolQ {
     public ApiRawData cleanPluginLog() {
         ApiEnum action = ApiEnum.CLEAN_PLUGIN_LOG;
 
-        ApiRawData result = sendApiMessage(action, null).toJavaObject(ApiRawData.class);
+        ApiRawData result = apiHandler.sendApiMessage(botSession, action, null).toJavaObject(ApiRawData.class);
         return result;
     }
 }

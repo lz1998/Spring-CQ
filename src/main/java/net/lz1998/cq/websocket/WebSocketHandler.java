@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import net.lz1998.cq.CQGlobal;
+import net.lz1998.cq.robot.ApiHandler;
+import net.lz1998.cq.robot.EventHandler;
 import net.lz1998.cq.robot.CoolQ;
 import net.lz1998.cq.robot.CoolQFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +16,20 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 
+
 @Slf4j
 @Service
 public class WebSocketHandler extends TextWebSocketHandler {
 
     private CoolQFactory coolQFactory;
+    private ApiHandler apiHandler;
+    private EventHandler eventHandler;
 
     @Autowired
-    public WebSocketHandler(CoolQFactory coolQFactory) {
+    public WebSocketHandler(CoolQFactory coolQFactory, ApiHandler apiHandler, EventHandler eventHandler) {
         this.coolQFactory = coolQFactory;
+        this.apiHandler = apiHandler;
+        this.eventHandler = eventHandler;
     }
 
     @Override
@@ -32,22 +39,17 @@ public class WebSocketHandler extends TextWebSocketHandler {
         JSONObject recvJson = JSON.parseObject(message.getPayload());
         if (recvJson.containsKey("echo")) {
             // 带有echo说明是调用api的返回数据
-            robot.onReceiveApiMessage(recvJson);
+            apiHandler.onReceiveApiMessage(recvJson);
         } else {
             // 不带有echo是事件上报
-            CQGlobal.executor.execute(() -> robot.onReceiveEventMessage(recvJson));
+            CQGlobal.executor.execute(() -> eventHandler.handle(robot,recvJson));
         }
     }
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
-        long xSelfId = Long.valueOf(session.getHandshakeHeaders().get("x-self-id").get(0));
+        long xSelfId = Long.parseLong(session.getHandshakeHeaders().get("x-self-id").get(0));
         log.info("{} connected", xSelfId);
-
-        // 如果在session连接时，已经有重复的QQ号在Map中，说明之前的是错误的，删除之前的
-        if(CQGlobal.robots.containsKey(xSelfId)){
-            CQGlobal.robots.remove(xSelfId);
-        }
 
         CoolQ cq=coolQFactory.createCoolQ(xSelfId,session);
 
@@ -57,7 +59,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-        long xSelfId = Long.valueOf(session.getHandshakeHeaders().get("x-self-id").get(0));
+        long xSelfId = Long.parseLong(session.getHandshakeHeaders().get("x-self-id").get(0));
         log.info("{} disconnected", xSelfId);
         CQGlobal.robots.remove(xSelfId);
     }
