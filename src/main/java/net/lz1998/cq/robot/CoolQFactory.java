@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketSession;
 
+/**
+ * 酷Q 工厂类
+ */
 @Service
 public class CoolQFactory {
     private ApiHandler apiHandler;
@@ -14,6 +17,13 @@ public class CoolQFactory {
         this.apiHandler = apiHandler;
     }
 
+    /**
+     * 创建一个CoolQ对象
+     * 把spring容器中的apiHandler放入对象
+     * @param selfId 机器人自己的QQ号
+     * @param botSession ws的session
+     * @return
+     */
     public CoolQ createCoolQ(Long selfId, WebSocketSession botSession){
         CoolQ cq=new CoolQ(selfId,botSession,apiHandler, CQGlobal.pluginList);
         return cq;

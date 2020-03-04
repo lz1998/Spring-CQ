@@ -8,12 +8,19 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * API处理类
+ */
 @Component
 public class ApiHandler {
     private int apiEcho = 0;//用于标记是哪次发送api，接受时作为key放入apiResponseMap
 
     private Map<String, ApiSender> apiCallbackMap = new HashMap<>();//用于存放api调用，收到响应时put，处理完成remove
 
+    /**
+     * 收到 以前调用的API 的响应
+     * @param message 内容
+     */
     public void onReceiveApiMessage(JSONObject message) {
         String echo = message.get("echo").toString();
         ApiSender apiSender = apiCallbackMap.get(echo);

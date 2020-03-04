@@ -14,6 +14,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 
+/**
+ * 事件处理器
+ * 先根据 post_type 分类，消息/通知/请求/元事件
+ * 然后交给对应的继续分类
+ * 职责链模式调用插件，返回MESSAGE_BLOCK停止
+ */
 @Component
 public class EventHandler {
 

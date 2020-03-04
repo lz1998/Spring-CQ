@@ -16,6 +16,13 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 
+/**
+ * ws处理类
+ *
+ * 建立连接
+ * 断开连接
+ * 收到消息
+ */
 @Slf4j
 @Service
 public class WebSocketHandler extends TextWebSocketHandler {
@@ -31,6 +38,46 @@ public class WebSocketHandler extends TextWebSocketHandler {
         this.eventHandler = eventHandler;
     }
 
+    /**
+     * ws建立连接
+     * 创建CoolQ对象，并放入CQGlobal.robots，是static Map<Long,CoolQ>，方便在jar外面获取
+     * TODO 希望加入spring容器，对CoolQ的方法用AOP
+     * TODO 在断开时要从spring中删除对象
+     * @param session websocket session
+     */
+    @Override
+    public void afterConnectionEstablished(WebSocketSession session) {
+        long xSelfId = Long.parseLong(session.getHandshakeHeaders().get("x-self-id").get(0));
+        log.info("{} connected", xSelfId);
+
+        // 新连接上的，创建一个对象
+        CoolQ cq = coolQFactory.createCoolQ(xSelfId, session);
+
+        // 存入Map，方便在未收到消息时调用API发送消息(定时、Controller或其他方式触发)
+        CQGlobal.robots.put(xSelfId, cq);
+    }
+
+    /**
+     * ws连接断开
+     * 需要清除之前的CoolQ对象
+     * @param session websocket session
+     * @param status
+     */
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
+        long xSelfId = Long.parseLong(session.getHandshakeHeaders().get("x-self-id").get(0));
+        log.info("{} disconnected", xSelfId);
+
+        CQGlobal.robots.remove(xSelfId);
+    }
+
+    /**
+     * ws收到消息时的方法
+     * 可能是api响应（包含echo字段）
+     * 可能是事件上报
+     * @param session
+     * @param message
+     */
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) {
         long xSelfId = Long.parseLong(session.getHandshakeHeaders().get("x-self-id").get(0));
@@ -43,23 +90,5 @@ public class WebSocketHandler extends TextWebSocketHandler {
             // 不带有echo是事件上报
             CQGlobal.executor.execute(() -> eventHandler.handle(robot, recvJson));
         }
-    }
-
-    @Override
-    public void afterConnectionEstablished(WebSocketSession session) {
-        long xSelfId = Long.parseLong(session.getHandshakeHeaders().get("x-self-id").get(0));
-        log.info("{} connected", xSelfId);
-
-        CoolQ cq = coolQFactory.createCoolQ(xSelfId, session);
-
-        // 存入Map，方便在未收到消息时调用API发送消息(定时、Controller或其他方式触发)
-        CQGlobal.robots.put(xSelfId, cq);
-    }
-
-    @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-        long xSelfId = Long.parseLong(session.getHandshakeHeaders().get("x-self-id").get(0));
-        log.info("{} disconnected", xSelfId);
-        CQGlobal.robots.remove(xSelfId);
     }
 }

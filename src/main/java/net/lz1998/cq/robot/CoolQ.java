@@ -13,6 +13,13 @@ import org.springframework.web.socket.WebSocketSession;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * 酷Q类
+ * 每个机器人对应一个对象
+ * 保存 机器人自己的QQ 和 ws的session
+ * API文档 https://github.com/lz1998/Spring-CQ/blob/demo/API.md
+ * EVENT文档 https://github.com/lz1998/Spring-CQ/blob/demo/Event.md
+ */
 @Slf4j
 public class CoolQ {
 
