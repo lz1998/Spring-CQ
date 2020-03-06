@@ -48,9 +48,9 @@ public class CoolQ {
     /**
      * 调用自定义的API
      * @param apiRequest 包含String url, JsonObject params
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
+     * @return 结果
+     * @throws IOException 发送异常
+     * @throws InterruptedException 线程异常
      */
     @SuppressWarnings("unused")
     public ApiData callCustomApi(IApiRequest apiRequest) throws IOException, InterruptedException {
@@ -63,7 +63,7 @@ public class CoolQ {
      * @param user_id     对方 QQ 号
      * @param message     要发送的内容
      * @param auto_escape 消息内容是否作为纯文本发送（即不解析 CQ 码），只在 message 字段是字符串时有效
-     * @return
+     * @return 结果
      */
     public ApiData<MessageData> sendPrivateMsg(long user_id, String message, boolean auto_escape) {
         ApiEnum action = ApiEnum.SEND_PRIVATE_MSG;
@@ -84,7 +84,7 @@ public class CoolQ {
      * @param group_id    群号
      * @param message     要发送的内容
      * @param auto_escape 消息内容是否作为纯文本发送（即不解析 CQ 码），只在 message 字段是字符串时有效
-     * @return
+     * @return 结果
      */
     public ApiData<MessageData> sendGroupMsg(long group_id, String message, boolean auto_escape) {
 
@@ -107,7 +107,7 @@ public class CoolQ {
      * @param discuss_id  讨论组 ID（正常情况下看不到，需要从讨论组消息上报的数据中获得）
      * @param message     要发送的内容
      * @param auto_escape 消息内容是否作为纯文本发送（即不解析 CQ 码），只在 message 字段是字符串时有效
-     * @return
+     * @return 结果
      */
     public ApiData<MessageData> sendDiscussMsg(long discuss_id, String message, boolean auto_escape) {
         ApiEnum action = ApiEnum.SEND_DISCUSS_MSG;
@@ -126,7 +126,7 @@ public class CoolQ {
      * 撤回消息
      *
      * @param message_id 消息 ID
-     * @return
+     * @return 结果
      */
     public ApiRawData deleteMsg(int message_id) {
         ApiEnum action = ApiEnum.DELETE_MSG;
@@ -143,7 +143,7 @@ public class CoolQ {
      *
      * @param user_id 对方 QQ 号
      * @param times   赞的次数，每个好友每天最多 10 次
-     * @return
+     * @return 结果
      */
     public ApiRawData sendLike(long user_id, Integer times) {
         ApiEnum action = ApiEnum.SEND_LIKE;
@@ -162,7 +162,7 @@ public class CoolQ {
      * @param group_id           群号
      * @param user_id            要踢的 QQ 号
      * @param reject_add_request 拒绝此人的加群请求
-     * @return
+     * @return 结果
      */
     public ApiRawData setGroupKick(long group_id, long user_id, boolean reject_add_request) {
         ApiEnum action = ApiEnum.SET_GROUP_KICK;
@@ -182,7 +182,7 @@ public class CoolQ {
      * @param group_id 群号
      * @param user_id  要禁言的 QQ 号
      * @param duration 禁言时长，单位秒，0 表示取消禁言
-     * @return
+     * @return 结果
      */
     public ApiRawData setGroupBan(long group_id, long user_id, long duration) {
         ApiEnum action = ApiEnum.SET_GROUP_BAN;
@@ -202,7 +202,7 @@ public class CoolQ {
      * @param group_id         群号
      * @param cqGroupAnonymous 要禁言的匿名用户对象（群消息上报的 anonymous 字段）
      * @param duration         禁言时长，单位秒，无法取消匿名用户禁言
-     * @return
+     * @return 结果
      */
     public ApiRawData setGroupAnonymousBan(long group_id, CQGroupAnonymous cqGroupAnonymous, boolean duration) {
         ApiEnum action = ApiEnum.SET_GROUP_ANONYMOUS_BAN;
@@ -222,7 +222,7 @@ public class CoolQ {
      * @param group_id 群号
      * @param flag     要禁言的匿名用户的 flag（需从群消息上报的数据中获得）
      * @param duration 禁言时长，单位秒，无法取消匿名用户禁言
-     * @return
+     * @return 结果
      */
     public ApiRawData setGroupAnonymousBan(long group_id, String flag, boolean duration) {
         ApiEnum action = ApiEnum.SET_GROUP_ANONYMOUS_BAN;
@@ -241,7 +241,7 @@ public class CoolQ {
      *
      * @param group_id 群号
      * @param enable   是否禁言
-     * @return
+     * @return 结果
      */
     public ApiRawData setGroupWholeBan(long group_id, boolean enable) {
         ApiEnum action = ApiEnum.SET_GROUP_WHOLE_BAN;
@@ -259,7 +259,7 @@ public class CoolQ {
      * @param group_id 群号
      * @param user_id  要设置管理员的 QQ 号
      * @param enable   true 为设置，false 为取消
-     * @return
+     * @return 结果
      */
     public ApiRawData setGroupAdmin(long group_id, long user_id, boolean enable) {
         ApiEnum action = ApiEnum.SET_GROUP_ADMIN;
@@ -278,7 +278,7 @@ public class CoolQ {
      *
      * @param group_id 群号
      * @param enable   是否允许匿名聊天
-     * @return
+     * @return 结果
      */
     public ApiRawData setGroupAnonymous(long group_id, boolean enable) {
         ApiEnum action = ApiEnum.SET_GROUP_ANONYMOUS;
@@ -297,7 +297,7 @@ public class CoolQ {
      * @param group_id 群号
      * @param user_id  要设置的 QQ 号
      * @param card     群名片内容，不填或空字符串表示删除群名片
-     * @return
+     * @return 结果
      */
     public ApiRawData setGroupCard(long group_id, long user_id, String card) {
         ApiEnum action = ApiEnum.SET_GROUP_CARD;
@@ -314,7 +314,7 @@ public class CoolQ {
     /**
      * @param group_id   群号
      * @param is_dismiss 是否解散，如果登录号是群主，则仅在此项为 true 时能够解散
-     * @return
+     * @return 结果
      */
     public ApiRawData setGroupLeave(long group_id, boolean is_dismiss) {
         ApiEnum action = ApiEnum.SET_GROUP_LEAVE;
@@ -334,7 +334,7 @@ public class CoolQ {
      * @param user_id       要设置的 QQ 号
      * @param special_title 专属头衔，不填或空字符串表示删除专属头衔
      * @param duration      专属头衔有效期，单位秒，-1 表示永久，不过此项似乎没有效果，可能是只有某些特殊的时间长度有效，有待测试
-     * @return
+     * @return 结果
      */
     public ApiRawData setGroupSpecialTitle(long group_id, long user_id, String special_title, boolean duration) {
         ApiEnum action = ApiEnum.SET_GROUP_SPECIAL_TITLE;
@@ -353,7 +353,7 @@ public class CoolQ {
      * 退出讨论组
      *
      * @param discuss_id 讨论组 ID（正常情况下看不到，需要从讨论组消息上报的数据中获得）
-     * @return
+     * @return 结果
      */
     public ApiRawData setDiscussLeave(long discuss_id) {
         ApiEnum action = ApiEnum.SET_DISCUSS_LEAVE;
@@ -371,7 +371,7 @@ public class CoolQ {
      * @param flag    加好友请求的 flag（需从上报的数据中获得）
      * @param approve 是否同意请求
      * @param remark  添加后的好友备注（仅在同意时有效）
-     * @return
+     * @return 结果
      */
     public ApiRawData setFriendAddRequest(String flag, boolean approve, String remark) {
         ApiEnum action = ApiEnum.SET_FRIEND_ADD_REQUEST;
@@ -392,7 +392,7 @@ public class CoolQ {
      * @param sub_type add 或 invite，请求类型（需要和上报消息中的 sub_type 字段相符）
      * @param approve  是否同意请求／邀请
      * @param reason   拒绝理由（仅在拒绝时有效）
-     * @return
+     * @return 结果
      */
     public ApiRawData setGroupAddRequest(String flag, String sub_type, boolean approve, String reason) {
         ApiEnum action = ApiEnum.SET_GROUP_ADD_REQUEST;
@@ -410,7 +410,7 @@ public class CoolQ {
     /**
      * 获取登录号信息
      *
-     * @return
+     * @return 结果
      */
     public ApiData<LoginInfoData> getLoginInfo() {
         ApiEnum action = ApiEnum.GET_LOGIN_INFO;
@@ -425,7 +425,7 @@ public class CoolQ {
      *
      * @param user_id  QQ 号
      * @param no_cache 是否不使用缓存（使用缓存可能更新不及时，但响应更快）
-     * @return
+     * @return 结果
      */
     public ApiData<StrangerInfoData> getStrangerInfo(long user_id, boolean no_cache) {
 
@@ -443,7 +443,7 @@ public class CoolQ {
     /**
      * 获取好友列表
      *
-     * @return
+     * @return 结果
      */
     public ApiListData<FriendData> getFriendList() {
         ApiEnum action = ApiEnum.GET_FRIEND_LIST;
@@ -455,7 +455,7 @@ public class CoolQ {
     /**
      * 获取群列表
      *
-     * @return
+     * @return 结果
      */
     public ApiListData<GroupData> getGroupList() {
         ApiEnum action = ApiEnum.GET_GROUP_LIST;
@@ -470,7 +470,7 @@ public class CoolQ {
      *
      * @param group_id 群号
      * @param no_cache 是否不使用缓存（使用缓存可能更新不及时，但响应更快）
-     * @return
+     * @return 结果
      */
     public ApiData<GroupInfoData> getGroupInfo(long group_id, boolean no_cache) {
         ApiEnum action = ApiEnum.GET_GROUP_INFO;
@@ -488,7 +488,7 @@ public class CoolQ {
      * @param group_id 群号
      * @param user_id  QQ 号
      * @param no_cache 是否不使用缓存（使用缓存可能更新不及时，但响应更快）
-     * @return
+     * @return 结果
      */
     public ApiData<GroupMemberInfoData> getGroupMemberInfo(long group_id, long user_id, boolean no_cache) {
         ApiEnum action = ApiEnum.GET_GROUP_MEMBER_INFO;
@@ -509,7 +509,7 @@ public class CoolQ {
      * 响应内容为 JSON 数组，每个元素的内容和上面的 /get_group_member_info 接口相同，但对于同一个群组的同一个成员，获取列表时和获取单独的成员信息时，某些字段可能有所不同，例如 area、title 等字段在获取列表时无法获得，具体应以单独的成员信息为准。
      *
      * @param group_id 群号
-     * @return
+     * @return 结果
      */
     public ApiListData<GroupMemberInfoData> getGroupMemberList(long group_id) {
         ApiEnum action = ApiEnum.GET_GROUP_MEMBER_LIST;
@@ -527,7 +527,7 @@ public class CoolQ {
      * 获取 Cookies
      *
      * @param domain 需要获取 cookies 的域名
-     * @return
+     * @return 结果
      */
     public ApiData<CookiesData> getCookies(String domain) {
         ApiEnum action = ApiEnum.GET_COOKIES;
@@ -543,7 +543,7 @@ public class CoolQ {
     /**
      * 获取 CSRF Token
      *
-     * @return
+     * @return 结果
      */
     public ApiData<CsrfTokenData> getCsrfToken() {
         ApiEnum action = ApiEnum.GET_CSRF_TOKEN;
@@ -558,7 +558,7 @@ public class CoolQ {
      * 即上面两个接口的合并
      *
      * @param domain 需要获取 cookies 的域名
-     * @return
+     * @return 结果
      */
     public ApiData<CredentialsData> getCredentials(String domain) {
         ApiEnum action = ApiEnum.GET_CREDENTIALS;
@@ -577,7 +577,7 @@ public class CoolQ {
      * @param file       收到的语音文件名（CQ 码的 file 参数），如 0B38145AA44505000B38145AA4450500.silk
      * @param out_format 要转换到的格式，目前支持 mp3、amr、wma、m4a、spx、ogg、wav、flac
      * @param full_path  是否返回文件的绝对路径（Windows 环境下建议使用，Docker 中不建议）
-     * @return
+     * @return 结果
      */
     public ApiData<FileData> getRecord(String file, String out_format, boolean full_path) {
         ApiEnum action = ApiEnum.GET_RECORD;
@@ -596,7 +596,7 @@ public class CoolQ {
      * 获取图片
      *
      * @param file 收到的图片文件名（CQ 码的 file 参数），如 6B4DE3DFD1BD271E3297859D41C530F5.jpg
-     * @return
+     * @return 结果
      */
     public ApiData<FileData> getImage(String file) {
         ApiEnum action = ApiEnum.GET_IMAGE;
@@ -612,7 +612,7 @@ public class CoolQ {
     /**
      * 检查是否可以发送图片
      *
-     * @return
+     * @return 结果
      */
     public ApiData<BooleanData> canSendImage() {
         ApiEnum action = ApiEnum.CAN_SEND_IMAGE;
@@ -625,7 +625,7 @@ public class CoolQ {
     /**
      * 检查是否可以发送语音
      *
-     * @return
+     * @return 结果
      */
     public ApiData<BooleanData> canSendRecord() {
         ApiEnum action = ApiEnum.CAN_SEND_RECORD;
@@ -638,7 +638,7 @@ public class CoolQ {
     /**
      * 获取插件运行状态
      *
-     * @return
+     * @return 结果
      */
     public ApiData<CQStatus> getStatus() {
         ApiEnum action = ApiEnum.GET_STATUS;
@@ -652,7 +652,7 @@ public class CoolQ {
      * 获取 酷Q 及 HTTP API 插件的版本信息
      * 参数
      *
-     * @return
+     * @return 结果
      */
     public ApiData<VersionInfoData> getVersionInfo() {
         ApiEnum action = ApiEnum.GET_VERSION_INFO;
@@ -666,7 +666,7 @@ public class CoolQ {
      * 重启 HTTP API 插件
      *
      * @param delay 要延迟的毫秒数，如果默认情况下无法重启，可以尝试设置延迟为 2000 左右
-     * @return
+     * @return 结果
      */
     public ApiRawData setRestartPlugin(int delay) {
         ApiEnum action = ApiEnum.SET_RESTART_PLUGIN;
@@ -682,7 +682,7 @@ public class CoolQ {
      * 清理数据目录
      *
      * @param data_dir 收到清理的目录名，支持 image、record、show、bface
-     * @return
+     * @return 结果
      */
     public ApiRawData cleanDataDir(String data_dir) {
         ApiEnum action = ApiEnum.CLEAN_DATA_DIR;
@@ -697,7 +697,7 @@ public class CoolQ {
     /**
      * 清理插件日志
      *
-     * @return
+     * @return 结果
      */
     public ApiRawData cleanPluginLog() {
         ApiEnum action = ApiEnum.CLEAN_PLUGIN_LOG;

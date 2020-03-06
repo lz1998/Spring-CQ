@@ -39,10 +39,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     }
 
     /**
-     * ws建立连接
-     * 创建CoolQ对象，并放入CQGlobal.robots，是static Map<Long,CoolQ>，方便在jar外面获取
-     * TODO 希望加入spring容器，对CoolQ的方法用AOP
-     * TODO 在断开时要从spring中删除对象
+     * ws建立连接，创建CoolQ对象，并放入CQGlobal.robots，是static Map，方便在jar外面获取
      * @param session websocket session
      */
     @Override
@@ -58,10 +55,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
     }
 
     /**
-     * ws连接断开
-     * 需要清除之前的CoolQ对象
+     * ws连接断开，需要清除之前的CoolQ对象
      * @param session websocket session
-     * @param status
+     * @param status 状态码
      */
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
@@ -75,8 +71,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
      * ws收到消息时的方法
      * 可能是api响应（包含echo字段）
      * 可能是事件上报
-     * @param session
-     * @param message
+     * @param session websocketSession
+     * @param message 消息内容
      */
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) {

@@ -22,7 +22,7 @@ public class CoolQFactory {
      * 把spring容器中的apiHandler放入对象
      * @param selfId 机器人自己的QQ号
      * @param botSession ws的session
-     * @return
+     * @return CoolQ对象
      */
     public CoolQ createCoolQ(Long selfId, WebSocketSession botSession){
         CoolQ cq=new CoolQ(selfId,botSession,apiHandler, CQGlobal.pluginList);

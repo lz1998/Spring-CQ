@@ -34,7 +34,7 @@ public class ApiHandler {
      *
      * @param action 需要调用的API
      * @param params 参数
-     * @return
+     * @return 结果
      */
     private JSONObject constructApiJSON(ApiEnum action, JSONObject params) {
         JSONObject apiJSON = new JSONObject();
@@ -52,7 +52,7 @@ public class ApiHandler {
      * @param botSession 机器人session
      * @param action     执行的操作
      * @param params     参数
-     * @return
+     * @return 结果
      */
     public JSONObject sendApiMessage(WebSocketSession botSession, ApiEnum action, JSONObject params) {
         JSONObject apiJSON = constructApiJSON(action, params);
@@ -75,8 +75,8 @@ public class ApiHandler {
     /**
      * 构造API需要的json，自定义request
      *
-     * @param apiRequest
-     * @return
+     * @param apiRequest 自定义请求
+     * @return 结果
      */
     private JSONObject constructApiJSON(IApiRequest apiRequest) {
         JSONObject apiJSON = new JSONObject();
@@ -90,11 +90,11 @@ public class ApiHandler {
     /**
      * 发送自定义API
      *
-     * @param botSession
-     * @param apiRequest
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
+     * @param botSession websocketSession
+     * @param apiRequest 自定义请求
+     * @return 结果
+     * @throws IOException 发送异常
+     * @throws InterruptedException 线程异常
      */
     @SuppressWarnings("unused")
     public JSONObject sendApiMessage(WebSocketSession botSession, IApiRequest apiRequest) throws IOException, InterruptedException {
