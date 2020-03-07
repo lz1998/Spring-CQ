@@ -25,7 +25,7 @@ demo分支是例子，jar分支是maven仓库的spring-cq
     <dependency>
         <groupId>net.lz1998</groupId>
         <artifactId>spring-cq</artifactId>
-        <version>4.14.0.4</version>
+        <version>4.14.0.6</version>
     </dependency>
 ```
 
