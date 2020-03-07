@@ -164,7 +164,7 @@ demo分支是例子，jar分支是maven仓库的spring-cq
             ```
 2. 解压后运行 CQA.exe 登录QQ账号 
 
-如果需要[酷Q Pro](http://dlsec.cqp.me/cqa-tuling)，下载解压后替换exe文件，其他不需要动
+如果需要[酷Q Pro](http://dlsec.cqp.me/cqp-tuling)，下载解压后替换exe文件，其他不需要动
 
 
 
@@ -203,3 +203,5 @@ demo分支是例子，jar分支是maven仓库的spring-cq
     richardchien/cqhttp
     ```
 2. 访问 http://127.0.0.1:9000 登录QQ账号
+
+如果需要酷Q Pro，把`http://dlsec.cqp.me/cqa-tuling`改为`http://dlsec.cqp.me/cqp-tuling`
