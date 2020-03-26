@@ -78,13 +78,22 @@ public class WebSocketHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) {
         long xSelfId = Long.parseLong(session.getHandshakeHeaders().get("x-self-id").get(0));
         CoolQ robot = CQGlobal.robots.get(xSelfId);
+
+        // 防止网络问题，快速重连可能 （连接1，断开1，连接2） 变成 （连接1，连接2，断开1）
+        if(robot==null){
+            robot=coolQFactory.createCoolQ(xSelfId,session);
+            CQGlobal.robots.put(xSelfId,robot);
+        }
+        robot.setBotSession(session);
+
         JSONObject recvJson = JSON.parseObject(message.getPayload());
         if (recvJson.containsKey("echo")) {
             // 带有echo说明是调用api的返回数据
             apiHandler.onReceiveApiMessage(recvJson);
         } else {
             // 不带有echo是事件上报
-            CQGlobal.executor.execute(() -> eventHandler.handle(robot, recvJson));
+            CoolQ finalRobot = robot;
+            CQGlobal.executor.execute(() -> eventHandler.handle(finalRobot, recvJson));
         }
     }
 }
