@@ -1,7 +1,7 @@
-package net.lz1998.cq;
+package net.lz1998.cq.boot;
 
 public class CQLogo {
-    public static String logo="   _____            _                _____ ____  \n" +
+    public static String logo = "   _____            _                _____ ____  \n" +
             "  / ____|          (_)              / ____/ __ \\ \n" +
             " | (___  _ __  _ __ _ _ __   __ _  | |   | |  | |\n" +
             "  \\___ \\| '_ \\| '__| | '_ \\ / _` | | |   | |  | |\n" +

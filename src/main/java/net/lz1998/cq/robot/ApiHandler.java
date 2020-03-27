@@ -1,6 +1,8 @@
 package net.lz1998.cq.robot;
 
 import com.alibaba.fastjson.JSONObject;
+import net.lz1998.cq.boot.CQProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -17,8 +19,12 @@ public class ApiHandler {
 
     private Map<String, ApiSender> apiCallbackMap = new HashMap<>();//用于存放api调用，收到响应时put，处理完成remove
 
+    @Autowired
+    CQProperties cqProperties;
+
     /**
      * 收到 以前调用的API 的响应
+     *
      * @param message 内容
      */
     public void onReceiveApiMessage(JSONObject message) {
@@ -57,7 +63,7 @@ public class ApiHandler {
     public JSONObject sendApiMessage(WebSocketSession botSession, ApiEnum action, JSONObject params) {
         JSONObject apiJSON = constructApiJSON(action, params);
         String echo = apiJSON.getString("echo");
-        ApiSender apiSender = new ApiSender(botSession);
+        ApiSender apiSender = new ApiSender(botSession, cqProperties.getApiTimeout());
         apiCallbackMap.put(echo, apiSender);
         JSONObject retJson;
         try {
@@ -93,14 +99,14 @@ public class ApiHandler {
      * @param botSession websocketSession
      * @param apiRequest 自定义请求
      * @return 结果
-     * @throws IOException 发送异常
+     * @throws IOException          发送异常
      * @throws InterruptedException 线程异常
      */
     @SuppressWarnings("unused")
     public JSONObject sendApiMessage(WebSocketSession botSession, IApiRequest apiRequest) throws IOException, InterruptedException {
         JSONObject apiJSON = constructApiJSON(apiRequest);
         String echo = apiJSON.getString("echo");
-        ApiSender apiSender = new ApiSender(botSession);
+        ApiSender apiSender = new ApiSender(botSession, cqProperties.getApiTimeout());
         apiCallbackMap.put(echo, apiSender);
         JSONObject retJson;
         retJson = apiSender.sendApiJson(apiJSON);

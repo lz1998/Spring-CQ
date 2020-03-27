@@ -1,8 +1,9 @@
-package net.lz1998.cq;
+package net.lz1998.cq.boot;
 
 import net.lz1998.cq.websocket.WebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,14 +19,18 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 )
 @Import({WebSocketHandler.class})
 @EnableWebSocket
+@EnableConfigurationProperties(CQProperties.class)
 public class CQAutoConfiguration implements WebSocketConfigurer {
 
     @Autowired
     private WebSocketHandler webSocketHandler;
 
+    @Autowired
+    CQProperties cqProperties;
+
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(webSocketHandler, CQGlobal.WEB_SOCKET_URL).setAllowedOrigins("*");
+        registry.addHandler(webSocketHandler, cqProperties.getUrl()).setAllowedOrigins("*");
     }
 
     @Bean
@@ -33,10 +38,9 @@ public class CQAutoConfiguration implements WebSocketConfigurer {
     public ServletServerContainerFactoryBean createWebSocketContainer() {
         ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
         // ws 传输数据的时候，数据过大有时候会接收不到，所以在此处设置bufferSize
-        container.setMaxTextMessageBufferSize(512000);
-        container.setMaxBinaryMessageBufferSize(512000);
-        container.setMaxBinaryMessageBufferSize(512000);
-        container.setMaxSessionIdleTimeout(15 * 60000L);
+        container.setMaxTextMessageBufferSize(cqProperties.getMaxTextMessageBufferSize());
+        container.setMaxBinaryMessageBufferSize(cqProperties.getMaxBinaryMessageBufferSize());
+        container.setMaxSessionIdleTimeout(cqProperties.getMaxSessionIdleTimeout());
         return container;
     }
 
