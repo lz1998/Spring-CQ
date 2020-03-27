@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Import({CQConfiguration.class})
+@Import({CQAutoConfiguration.class})
 public @interface EnableCQ {
 
 }

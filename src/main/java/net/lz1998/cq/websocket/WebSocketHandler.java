@@ -9,7 +9,6 @@ import net.lz1998.cq.robot.CoolQ;
 import net.lz1998.cq.robot.CoolQFactory;
 import net.lz1998.cq.robot.EventHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -18,13 +17,12 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 /**
  * ws处理类
- *
+ * <p>
  * 建立连接
  * 断开连接
  * 收到消息
  */
 @Slf4j
-@Service
 public class WebSocketHandler extends TextWebSocketHandler {
 
     private CoolQFactory coolQFactory;
@@ -40,6 +38,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     /**
      * ws建立连接，创建CoolQ对象，并放入CQGlobal.robots，是static Map，方便在jar外面获取
+     *
      * @param session websocket session
      */
     @Override
@@ -56,8 +55,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     /**
      * ws连接断开，需要清除之前的CoolQ对象
+     *
      * @param session websocket session
-     * @param status 状态码
+     * @param status  状态码
      */
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
@@ -71,6 +71,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
      * ws收到消息时的方法
      * 可能是api响应（包含echo字段）
      * 可能是事件上报
+     *
      * @param session websocketSession
      * @param message 消息内容
      */
@@ -80,9 +81,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
         CoolQ robot = CQGlobal.robots.get(xSelfId);
 
         // 防止网络问题，快速重连可能 （连接1，断开1，连接2） 变成 （连接1，连接2，断开1）
-        if(robot==null){
-            robot=coolQFactory.createCoolQ(xSelfId,session);
-            CQGlobal.robots.put(xSelfId,robot);
+        if (robot == null) {
+            robot = coolQFactory.createCoolQ(xSelfId, session);
+            CQGlobal.robots.put(xSelfId, robot);
         }
         robot.setBotSession(session);
 
