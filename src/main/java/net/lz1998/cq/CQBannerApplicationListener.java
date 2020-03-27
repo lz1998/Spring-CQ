@@ -34,6 +34,7 @@ public class CQBannerApplicationListener
   private String buildBannerText() {
     StringBuilder bannerTextBuilder = new StringBuilder();
     bannerTextBuilder.append(System.getProperty("line.separator"))
+            .append(CQLogo.logo)
         .append(" :: SpringCQ :: ")
         .append(System.getProperty("line.separator"));
     return bannerTextBuilder.toString();
