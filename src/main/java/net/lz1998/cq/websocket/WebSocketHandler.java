@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import net.lz1998.cq.CQGlobal;
-import net.lz1998.cq.boot.CQProperties;
 import net.lz1998.cq.boot.EventProperties;
 import net.lz1998.cq.robot.ApiHandler;
 import net.lz1998.cq.robot.CoolQ;
@@ -35,12 +34,10 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private CoolQFactory coolQFactory;
     private ApiHandler apiHandler;
     private EventHandler eventHandler;
-    private EventProperties eventProperties;
     private ExecutorService executor;
 
     @Autowired
     public WebSocketHandler(EventProperties eventProperties, CoolQFactory coolQFactory, ApiHandler apiHandler, EventHandler eventHandler) {
-        this.eventProperties = eventProperties;
         this.coolQFactory = coolQFactory;
         this.apiHandler = apiHandler;
         this.eventHandler = eventHandler;

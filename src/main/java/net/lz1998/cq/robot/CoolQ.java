@@ -47,14 +47,15 @@ public class CoolQ {
 
     /**
      * 调用自定义的API
+     *
      * @param apiRequest 包含String url, JsonObject params
      * @return 结果
-     * @throws IOException 发送异常
+     * @throws IOException          发送异常
      * @throws InterruptedException 线程异常
      */
     @SuppressWarnings("unused")
     public ApiData callCustomApi(IApiRequest apiRequest) throws IOException, InterruptedException {
-        return apiHandler.sendApiMessage(botSession,apiRequest).toJavaObject(ApiData.class);
+        return apiHandler.sendApiMessage(botSession, apiRequest).toJavaObject(ApiData.class);
     }
 
     /**

@@ -147,7 +147,7 @@ public class CQPlugin {
         return MESSAGE_IGNORE;
     }
 
-    public int onLifecycleMeta(CoolQ cq, CQLifecycleMetaEvent event){
+    public int onLifecycleMeta(CoolQ cq, CQLifecycleMetaEvent event) {
         return MESSAGE_IGNORE;
     }
 }

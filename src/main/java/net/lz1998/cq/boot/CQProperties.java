@@ -27,6 +27,6 @@ public class CQProperties {
     private Long apiTimeout = 120000L;
     @Getter
     @Setter
-    List<Class<? extends CQPlugin>> pluginList=new ArrayList<>();
+    List<Class<? extends CQPlugin>> pluginList = new ArrayList<>();
 
 }
