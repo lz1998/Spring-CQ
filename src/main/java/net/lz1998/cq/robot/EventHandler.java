@@ -1,6 +1,7 @@
 package net.lz1998.cq.robot;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import net.lz1998.cq.event.message.CQDiscussMessageEvent;
 import net.lz1998.cq.event.message.CQGroupMessageEvent;
 import net.lz1998.cq.event.message.CQPrivateMessageEvent;
@@ -20,11 +21,13 @@ import org.springframework.stereotype.Component;
  * 然后交给对应的继续分类
  * 职责链模式调用插件，返回MESSAGE_BLOCK停止
  */
+@Slf4j
 @Component
 public class EventHandler {
 
     private ApplicationContext applicationContext;
 
+    private CQPlugin defaultPlugin=new CQPlugin();
     @Autowired
     public EventHandler(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
@@ -187,11 +190,10 @@ public class EventHandler {
 
     private CQPlugin getPlugin(Class<? extends CQPlugin> pluginClass) {
         try {
-            Class<?> aClass = Class.forName(pluginClass.getName());
-            return (CQPlugin) applicationContext.getBean(aClass);
+            return applicationContext.getBean(pluginClass);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            log.error("已跳过 {} ，请检查 @Component",pluginClass.getSimpleName());
+            return defaultPlugin;
         }
     }
 }
