@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import net.lz1998.cq.CQGlobal;
+import net.lz1998.cq.boot.CQProperties;
+import net.lz1998.cq.boot.EventProperties;
 import net.lz1998.cq.robot.ApiHandler;
 import net.lz1998.cq.robot.CoolQ;
 import net.lz1998.cq.robot.CoolQFactory;
@@ -13,6 +15,11 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -28,12 +35,21 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private CoolQFactory coolQFactory;
     private ApiHandler apiHandler;
     private EventHandler eventHandler;
+    private EventProperties eventProperties;
+    private ExecutorService executor;
 
     @Autowired
-    public WebSocketHandler(CoolQFactory coolQFactory, ApiHandler apiHandler, EventHandler eventHandler) {
+    public WebSocketHandler(EventProperties eventProperties, CoolQFactory coolQFactory, ApiHandler apiHandler, EventHandler eventHandler) {
+        this.eventProperties = eventProperties;
         this.coolQFactory = coolQFactory;
         this.apiHandler = apiHandler;
         this.eventHandler = eventHandler;
+        this.executor =
+                new ThreadPoolExecutor(eventProperties.getCorePoolSize(),
+                        eventProperties.getMaxPoolSize(),
+                        eventProperties.getKeepAliveTime(),
+                        TimeUnit.MILLISECONDS,
+                        new ArrayBlockingQueue<>(eventProperties.getWorkQueueSize()));
     }
 
     /**
@@ -94,7 +110,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
         } else {
             // 不带有echo是事件上报
             CoolQ finalRobot = robot;
-            CQGlobal.executor.execute(() -> eventHandler.handle(finalRobot, recvJson));
+            executor.execute(() -> eventHandler.handle(finalRobot, recvJson));
         }
     }
 }

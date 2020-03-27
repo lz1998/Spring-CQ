@@ -19,7 +19,7 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 )
 @Import({WebSocketHandler.class})
 @EnableWebSocket
-@EnableConfigurationProperties(CQProperties.class)
+@EnableConfigurationProperties({CQProperties.class,EventProperties.class})
 public class CQAutoConfiguration implements WebSocketConfigurer {
 
     @Autowired
