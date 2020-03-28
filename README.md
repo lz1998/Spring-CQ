@@ -1,18 +1,28 @@
 # Spring-CQ
-[![Build Status](https://travis-ci.org/lz1998/spring-cq.png)](https://travis-ci.org/lz1998/spring-cq)
+[![maven](https://img.shields.io/maven-central/v/net.lz1998/spring-cq)](https://search.maven.org/artifact/net.lz1998/spring-cq)
 [![QQ群](https://img.shields.io/static/v1?label=QQ%E7%BE%A4&message=335783090&color=blue)](https://jq.qq.com/?_wv=1027&k=5BKAROL)
 
-基于 酷Q、cqhttp、SpringBoot、反向websocket 的 QQ 机器人框架
 
-这个README主要讲了总体使用方法
 
-详细API文档:https://github.com/lz1998/Spring-CQ/blob/demo/API.md
+- 基于 酷Q、cqhttp、SpringBoot、反向websocket 的 QQ 机器人框架
 
-详细Event文档：https://github.com/lz1998/Spring-CQ/blob/demo/Event.md
+- 这是一个自定义spring-boot-starter，项目名暂时不改了
 
-视频教程：https://www.bilibili.com/video/av89649630/
+- 比起其他http框架，可以很方便地开多个QQ号，不需要额外配置cqhttp端口
 
-demo分支是例子，jar分支是maven仓库的spring-cq
+- 这个README主要讲了大概的使用方法，详细API和EVENT看下面两个链接
+
+- 详细API文档:https://github.com/lz1998/Spring-CQ/blob/demo/API.md
+
+- 详细Event文档：https://github.com/lz1998/Spring-CQ/blob/demo/Event.md
+
+- 新手推荐视频教程：https://www.bilibili.com/video/av89649630/
+
+- Kotlin也可以用：https://github.com/lz1998/Spring-CQ-Kotlin-Demo
+
+- Groovy也可以用：https://github.com/lz1998/Spring-CQ-Groovy-Demo
+
+- demo分支是例子，jar分支是maven仓库的spring-cq
 
 ## 开发环境
 - IntelliJ IDEA Ultimate(学生认证免费)
@@ -29,7 +39,8 @@ demo分支是例子，jar分支是maven仓库的spring-cq
     </dependency>
 ```
 
-为了避免一些问题，推荐直接下载demo修改
+推荐SpringBoot 2.1.8  
+为了避免一些问题，可以直接下载demo修改
 
 ## 编写插件
 
@@ -100,11 +111,8 @@ demo分支是例子，jar分支是maven仓库的spring-cq
        }
    }
     ```
-    截图
-    
-    <img src="http://cq.lz1998.xin/screenshot_private.png" width="40%"/> <img src="http://cq.lz1998.xin/screenshot_group.png"  width="40%"/>
 
-2. 配置application.yml
+2. 配置resources/application.yml
     ```yml
     server:
       port: 8081 # 下面的cqhttp都是8081端口，可以自己改
@@ -158,6 +166,8 @@ demo分支是例子，jar分支是maven仓库的spring-cq
             ```
 2. 解压后运行 CQA.exe 登录QQ账号 
 
+如果需要[酷Q Pro](http://dlsec.cqp.me/cqp-tuling)，下载解压后替换exe文件，其他不需要动
+
 
 
 
@@ -195,3 +205,9 @@ demo分支是例子，jar分支是maven仓库的spring-cq
     richardchien/cqhttp
     ```
 2. 访问 http://127.0.0.1:9000 登录QQ账号
+
+如果需要酷Q Pro，把`http://dlsec.cqp.me/cqa-tuling`改为`http://dlsec.cqp.me/cqp-tuling`
+
+## 截图
+    
+<img src="http://cq.lz1998.xin/screenshot_private.png" width="40%"/> <img src="http://cq.lz1998.xin/screenshot_group.png"  width="40%"/>
