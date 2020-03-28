@@ -22,7 +22,7 @@
         <dependency>
             <groupId>net.lz1998</groupId>
             <artifactId>spring-cq</artifactId>
-            <version>4.14.0.5</version>
+            <version>4.14.1.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

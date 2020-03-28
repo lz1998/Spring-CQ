@@ -25,13 +25,14 @@ demo分支是例子，jar分支是maven仓库的spring-cq
     <dependency>
         <groupId>net.lz1998</groupId>
         <artifactId>spring-cq</artifactId>
-        <version>4.14.0.4</version>
+        <version>4.14.1.1</version>
     </dependency>
 ```
 
 为了避免一些问题，推荐直接下载demo修改
 
 ## 编写插件
+
 1. 编写XXXPlugin，继承CQPlugin  
     ```java
    /**
@@ -103,33 +104,27 @@ demo分支是例子，jar分支是maven仓库的spring-cq
     
     <img src="http://cq.lz1998.xin/screenshot_private.png" width="40%"/> <img src="http://cq.lz1998.xin/screenshot_group.png"  width="40%"/>
 
-2. 创建一个CQConfig类
-    ```java
-    @EnableCQ
-    public class Config {
-        public static void init(){
-            CQGlobal.pluginList.add(DemoPlugin.class);
-            // CQGlobal.pluginList.add(XXXXXXXX); // 如果还有别的功能，在这里add，模仿上面一行
-        }
-    }
-    ```
-3. 在主函数中，Spring启动前执行CQConfig.init()
-    ```java
-    @SpringBootApplication
-    public class DemoApplication {
+2. 配置application.yml
+    ```yml
+    server:
+      port: 8081 # 下面的cqhttp都是8081端口，可以自己改
     
-        public static void main(String[] args) {
-            SpringApplication.run(DemoApplication.class, args);
-        }
-    
-    }
+    spring:
+      cq:
+        # 在这里配置各个功能执行顺序
+        # 如果前一个功能返回MESSAGE_BLOCK，下一个功能不会被执行
+        # 如果前一个功能返回MESSAGE_IGNORE，会继续执行下一个功能
+        plugin-list:
+          - com.example.demo.plugin.DemoPlugin
+          - com.example.demo.plugin.TestPlugin
+          - com.example.demo.plugin.HelloPlugin
     ```
+
 
 
     
 ## 测试应用
-1. 修改application.properties的端口，默认8081
-2. 运行SpringCqApplication的main方法
+1. 运行SpringCqApplication的main方法
 
 ## 打包应用
 1. 使用maven打包应用
