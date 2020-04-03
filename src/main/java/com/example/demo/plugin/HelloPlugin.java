@@ -10,7 +10,7 @@ public class HelloPlugin extends CQPlugin {
     @Override
     public int onPrivateMessage(CoolQ cq, CQPrivateMessageEvent event) {
         // 不管收到什么都回复hello
-        cq.sendPrivateMsg(event.getUserId(),"hello",false);
+        cq.sendPrivateMsg(event.getUserId(), "hello", false);
         return MESSAGE_IGNORE;
     }
 }
