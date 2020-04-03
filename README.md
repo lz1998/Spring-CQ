@@ -16,7 +16,7 @@
 
 - 详细Event文档：https://github.com/lz1998/Spring-CQ/blob/demo/Event.md
 
-- 新手推荐视频教程：https://www.bilibili.com/video/av89649630/  （版本更新：视频中的CQGlobal.pluginList.add改为在resource/application.yml中配置，其他相同）
+- 新手推荐视频教程：https://www.bilibili.com/video/av89649630/  （版本更新：视频中的$\color{red}{CQGlobal.pluginList.add}$改为在$\color{red}{resource/application.yml}$中配置，其他相同）
 
 - Kotlin也可以用：https://github.com/lz1998/Spring-CQ-Kotlin-Demo
 
