@@ -73,14 +73,40 @@ public class CQCode {
 
 
     /**
+     * 自定义图片
+     *
+     * @param file    图片文件名称，图片存放在酷Q目录的data\image\下
+     * @param cache   是否缓存
+     * @param timeout 下载操作超时(单位秒)
+     * @return [CQ:image,file={1},cache={2},timeout={3}]
+     */
+    public static String image(String file, boolean cache, int timeout) {
+        return "[CQ:image,file=" + escape(file) + ",cache=" + cache + ",timeout=" + timeout + "]";
+    }
+
+
+    /**
      * 语音
      *
      * @param file  音频文件名称，音频存放在酷Q目录的data\record\下
      * @param magic 是否为变声，若该参数为true则显示变声标记。该参数可被忽略。
-     * @return [CQ:record,file={1},magic={2}]
+     * @return [CQ:record,file={1},magic={2},cache={2},timeout={3}]
      */
     public static String record(String file, boolean magic) {
         return "[CQ:record,file=" + escape(file) + ",magic=" + magic + "]";
+    }
+
+    /**
+     * 语音
+     *
+     * @param file    音频文件名称，音频存放在酷Q目录的data\record\下
+     * @param magic   是否为变声，若该参数为true则显示变声标记。该参数可被忽略。
+     * @param cache   是否缓存
+     * @param timeout 下载操作超时(单位秒)
+     * @return
+     */
+    public static String record(String file, boolean magic, boolean cache, int timeout) {
+        return "[CQ:record,file=" + escape(file) + ",magic=" + magic + ",cache=" + cache + ",timeout=" + timeout + "]";
     }
 
     /**
