@@ -337,7 +337,7 @@ public class CoolQ {
      * @param duration      专属头衔有效期，单位秒，-1 表示永久，不过此项似乎没有效果，可能是只有某些特殊的时间长度有效，有待测试
      * @return 结果
      */
-    public ApiRawData setGroupSpecialTitle(long group_id, long user_id, String special_title, boolean duration) {
+    public ApiRawData setGroupSpecialTitle(long group_id, long user_id, String special_title, int duration) {
         ApiEnum action = ApiEnum.SET_GROUP_SPECIAL_TITLE;
 
         JSONObject params = new JSONObject();
