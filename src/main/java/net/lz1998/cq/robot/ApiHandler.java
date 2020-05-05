@@ -2,8 +2,6 @@ package net.lz1998.cq.robot;
 
 import com.alibaba.fastjson.JSONObject;
 import net.lz1998.cq.boot.CQProperties;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
@@ -13,14 +11,16 @@ import java.util.Map;
 /**
  * API处理类
  */
-@Component
 public class ApiHandler {
     private int apiEcho = 0;//用于标记是哪次发送api，接受时作为key放入apiResponseMap
 
     private Map<String, ApiSender> apiCallbackMap = new HashMap<>();//用于存放api调用，收到响应时put，处理完成remove
 
-    @Autowired
     CQProperties cqProperties;
+
+    public ApiHandler(CQProperties cqProperties) {
+        this.cqProperties = cqProperties;
+    }
 
     /**
      * 收到 以前调用的API 的响应

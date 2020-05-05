@@ -11,7 +11,7 @@
     </parent>
     <groupId>net.lz1998</groupId>
     <artifactId>spring-cq</artifactId>
-    <version>4.15.0.0</version>
+    <version>4.15.0.1</version>
     <name>Spring CQ</name>
     <description>This is a qq robot project.</description>
     <url>http://cq.lz1998.net</url>

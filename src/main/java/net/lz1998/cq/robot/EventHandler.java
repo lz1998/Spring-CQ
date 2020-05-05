@@ -10,7 +10,6 @@ import net.lz1998.cq.event.meta.CQLifecycleMetaEvent;
 import net.lz1998.cq.event.notice.*;
 import net.lz1998.cq.event.request.CQFriendRequestEvent;
 import net.lz1998.cq.event.request.CQGroupRequestEvent;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -22,13 +21,12 @@ import org.springframework.stereotype.Component;
  * 职责链模式调用插件，返回MESSAGE_BLOCK停止
  */
 @Slf4j
-@Component
 public class EventHandler {
 
     private ApplicationContext applicationContext;
 
-    private CQPlugin defaultPlugin=new CQPlugin();
-    @Autowired
+    private CQPlugin defaultPlugin = new CQPlugin();
+
     public EventHandler(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
@@ -192,7 +190,7 @@ public class EventHandler {
         try {
             return applicationContext.getBean(pluginClass);
         } catch (Exception e) {
-            log.error("已跳过 {} ，请检查 @Component",pluginClass.getSimpleName());
+            log.error("已跳过 {} ，请检查 @Component", pluginClass.getSimpleName());
             return defaultPlugin;
         }
     }

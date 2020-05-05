@@ -9,7 +9,6 @@ import net.lz1998.cq.robot.ApiHandler;
 import net.lz1998.cq.robot.CoolQ;
 import net.lz1998.cq.robot.CoolQFactory;
 import net.lz1998.cq.robot.EventHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -36,7 +35,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private EventHandler eventHandler;
     private ExecutorService executor;
 
-    @Autowired
+
     public WebSocketHandler(EventProperties eventProperties, CoolQFactory coolQFactory, ApiHandler apiHandler, EventHandler eventHandler) {
         this.coolQFactory = coolQFactory;
         this.apiHandler = apiHandler;
