@@ -199,7 +199,7 @@
     -e CQHTTP_USE_HTTP=false \
     -e CQHTTP_USE_WS_REVERSE=true \
     -e CQHTTP_WS_REVERSE_URL=ws://127.0.0.1:8081/ws/cq/ \
-    -e CQHTTP_WS_REVERSE_UNIVERSAL_CLIENT=true \
+    -e CQHTTP_WS_REVERSE_USE_UNIVERSAL_CLIENT=true \
     -e CQHTTP_ENABLE_HEARTBEAT=true \
     -e CQHTTP_HEARTBEAT_INTERVAL=60000 \
     richardchien/cqhttp
