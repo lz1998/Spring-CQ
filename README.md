@@ -17,7 +17,7 @@
     <dependency>
         <groupId>net.lz1998</groupId>
         <artifactId>spring-cq</artifactId>
-        <version>4.14.0</version>
+        <version>4.15.0.1</version>
     </dependency>
 ```
 
