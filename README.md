@@ -3,8 +3,9 @@
 [![QQ群](https://img.shields.io/static/v1?label=QQ%E7%BE%A4&message=335783090&color=blue)](https://jq.qq.com/?_wv=1027&k=5BKAROL)
 
 
+- 因为酷Q已停运，请使用demo分支下的client/spring-cq-client.jar，首次运行会产生`conf/config.json`，在里面配置账号密码，然后重新运行
 
-- 基于 酷Q、cqhttp、SpringBoot、反向websocket 的 QQ 机器人框架
+- 基于 Spring-CQ-Client、SpringBoot、反向websocket 的 QQ 机器人框架
 
 - 这是一个自定义spring-boot-starter，项目名暂时不改了
 
