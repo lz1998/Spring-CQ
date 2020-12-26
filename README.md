@@ -3,7 +3,7 @@
 [![QQ群](https://img.shields.io/static/v1?label=QQ%E7%BE%A4&message=335783090&color=blue)](https://jq.qq.com/?_wv=1027&k=5BKAROL)
 
 
-- 因为酷Q已停运，请使用demo分支下的client/spring-cq-client.jar，首次运行会产生`conf/config.json`，在里面配置账号密码，然后重新运行。或使用go-cqhttp等替代酷Q。也可以使用新框架[ProtobufBot](https://github.com/protobufbot)（[文档](https://blog.lz1998.net/blogs/bot/2020/bot-tutorial/)）。
+- 因为酷Q已停运，请使用demo分支下的client/spring-cq-client.jar，首次运行会产生`conf/config.json`，在里面配置账号密码，然后重新运行。或使用go-cqhttp等替代酷Q。也可以使用新框架[ProtobufBot](https://github.com/protobufbot)（[文档](https://blog.lz1998.net/blogs/bot/2020/bot-tutorial/)）推荐使用新框架。
 
 - 基于 Spring-CQ-Client、SpringBoot、反向websocket 的 QQ 机器人框架
 
