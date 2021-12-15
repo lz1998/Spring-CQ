@@ -2,9 +2,9 @@
 [![maven](https://img.shields.io/maven-central/v/net.lz1998/spring-cq)](https://search.maven.org/artifact/net.lz1998/spring-cq)
 [![QQ群](https://img.shields.io/static/v1?label=QQ%E7%BE%A4&message=335783090&color=blue)](https://jq.qq.com/?_wv=1027&k=5BKAROL)
 
-- 推荐使用新框架 [pbbot-spring-boot-starter](https://github.com/ProtobufBot/pbbot-spring-boot-starter)。建议直接下载 [demo](https://github.com/ProtobufBot/Spring-Mirai-Server) 修改，配合 [Go-Mirai-Client](https://github.com/ProtobufBot/Go-Mirai-Client/releases) （相当于酷Q）运行。代码结构与 Spring-CQ 基本相同，可以参考下方文档。
+- 【推荐】新项目使用新框架 [pbbot-spring-boot-starter](https://github.com/ProtobufBot/pbbot-spring-boot-starter)。建议直接下载 [demo](https://github.com/ProtobufBot/Spring-Mirai-Server) 修改，配合 [Go-Mirai-Client](https://github.com/ProtobufBot/Go-Mirai-Client/releases) （相当于酷Q）运行。代码结构与 Spring-CQ 基本相同，可以参考下方文档。
 
-- 因为酷Q已停运，请使用go-cqhttp等替代酷Q。
+- 因为酷Q已停运，老项目请使用 [go-cqhttp](https://github.com/Mrs4s/go-cqhttp) 等替代酷Q。
 
 - 基于 Spring-CQ-Client、SpringBoot、反向websocket 的 QQ 机器人框架
 
