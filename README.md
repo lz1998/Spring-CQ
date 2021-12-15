@@ -4,7 +4,7 @@
 
 - 推荐使用新框架 [pbbot-spring-boot-starter](https://github.com/ProtobufBot/pbbot-spring-boot-starter)。建议直接下载 [demo](https://github.com/ProtobufBot/Spring-Mirai-Server) 修改，配合 [Go-Mirai-Client](https://github.com/ProtobufBot/Go-Mirai-Client/releases) （相当于酷Q）运行。代码结构与 Spring-CQ 基本相同，可以参考下方文档。
 
-- 因为酷Q已停运，请使用demo分支下的client/spring-cq-client.jar，首次运行会产生`conf/config.json`，在里面配置账号密码，然后重新运行。或使用go-cqhttp等替代酷Q。
+- 因为酷Q已停运，请使用go-cqhttp等替代酷Q。
 
 - 基于 Spring-CQ-Client、SpringBoot、反向websocket 的 QQ 机器人框架
 
